@@ -12,6 +12,7 @@ if [ -z "$1" ]; then
 else
   working_dir=$1
 fi
+echo "${P_INFO}Working in '${P_END}${working_dir}${P_INFO}'.${P_END}"
 
 stylesheet=$(realpath --relative-to="$working_dir" "$OSCALDIR/build/metaschema/xml/produce-and-run-either-documentor.xsl")
 
@@ -39,6 +40,7 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
     filename="${filename%.*}"
     base="${filename/_metaschema/}"
     converter="$working_dir/json/convert/${base}_xml-to-json-converter.xsl"
+    metaschema_path=$(realpath --relative-to="$working_dir" "$metaschema")
 
     #split on commas
     IFS=, read -a formats <<< "$gen_docs"
@@ -60,20 +62,16 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
         ;;
       esac
 
-      old_cwd="$PWD"
-      cd "$working_dir"
-      
-      echo "${P_INFO}Generating ${format^^} model documentation for metaschema '$metaschema'.${P_END}"
-      xsl_transform "$stylesheet" "$metaschema" "" \
+      echo "${P_INFO}Generating ${format^^} model documentation for metaschema '${P_END}${metaschema_path}${P_INFO}'.${P_END}"
+      xsl_transform "$stylesheet" "$metaschema_path" "" \
         "target-format=${format}" \
         "example-converter-xslt-path=${converter}" \
         "output-path=docs/content/documentation/schemas"
       cmd_exitcode=$?
       if [ $cmd_exitcode -ne 0 ]; then
-        echo "${P_ERROR}Generating ${format^^} model documentation failed for '$metaschema'.${P_END}"
+        echo "${P_ERROR}Generating ${format^^} model documentation failed for '${P_END}${metaschema_path}${P_ERROR}'.${P_END}"
         exitcode=1
       fi
-      cd "$old_cwd"
     done
   done
 done < $OSCALDIR/build/ci-cd/config/metaschema
