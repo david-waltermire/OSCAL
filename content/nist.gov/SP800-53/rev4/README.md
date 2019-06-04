@@ -11,7 +11,7 @@ This directory contains OSCAL catalog and profile content for SP 800-53 revision
 ## OSCAL SP 800-53 Revision 4 Catalog Content
 
 - [NIST_SP-800-53_rev4_catalog.json](json/NIST_SP-800-53_rev4_catalog.json): This file contains the full text of SP 800-53 revision 4 in OSCAL JSON format, *including* information integrated from appendixes describing objectives and assessments for controls (SP 800-53A). This OSCAL catalog is produced via transformation pipeline from NIST NVD XML source data. It is *not* an official version of this publication and cannot be warranted in any way except for purposes of these demonstrations.
-- [NIST_SP-800-53_rev4_catalog.xml](xml/NIST_SP-800-53_rev4_catalog.xml): This file has the same contents as [NIST_SP-800-53_rev4_catalog.json](json/SP800-53-rev4-catalog.json) except in XML format.
+- [NIST_SP-800-53_rev4_catalog.xml](xml/NIST_SP-800-53_rev4_catalog.xml): This file has the same contents as [NIST_SP-800-53_rev4_catalog.json](json/NIST_SP-800-53_rev4_catalog.json) except in XML format.
 
 ## OSCAL SP 800-53 Revision 4 Baseline Profile Content
 
@@ -19,8 +19,8 @@ This directory contains OSCAL catalog and profile content for SP 800-53 revision
 - [NIST_SP-800-53_rev4_LOW-baseline_profile.xml](xml/NIST_SP-800-53_rev4_LOW-baseline_profile.xml): This file has the same contents as [NIST_SP-800-53_rev4_LOW-baseline_profile.json](json/NIST_SP-800-53_rev4_LOW-baseline_profile.json) except in XML format.
 - [NIST_SP-800-53_rev4_MODERATE-baseline_profile.json](json/NIST_SP-800-53_rev4_MODERATE-baseline_profile.json): This file contains an OSCAL profile in JSON format representing the Moderate impact baseline profile (selection) of controls based on `NIST SP 800-53 rev4 Appendix D`.
 - [NIST_SP-800-53_rev4_MODERATE-baseline_profile.xml](xml/NIST_SP-800-53_rev4_MODERATE-baseline_profile.xml): This file has the same contents as [NIST_SP-800-53_rev4_MODERATE-baseline_profile.json](json/NIST_SP-800-53_rev4_MODERATE-baseline_profile.json) except in XML format.
-- [NIST_SP-800-53_rev4_HIGH-baseline_profile.json](NIST_SP-800-53_rev4_HIGH-baseline_profile.json): This file contains an OSCAL profile in JSON format representing the High impact baseline profile (selection) of controls based on `NIST SP 800-53 rev4 Appendix D`.
-- [NIST_SP-800-53_rev4_HIGH-baseline_profile.xml](NIST_SP-800-53_rev4_HIGH-baseline_profile.xml): This file has the same contents as [NIST_SP-800-53_rev4_HIGH-baseline_profile.json](NIST_SP-800-53_rev4_HIGH-baseline_profile.json) except in XML format.
+- [NIST_SP-800-53_rev4_HIGH-baseline_profile.json](json/NIST_SP-800-53_rev4_HIGH-baseline_profile.json): This file contains an OSCAL profile in JSON format representing the High impact baseline profile (selection) of controls based on `NIST SP 800-53 rev4 Appendix D`.
+- [NIST_SP-800-53_rev4_HIGH-baseline_profile.xml](xml/NIST_SP-800-53_rev4_HIGH-baseline_profile.xml): This file has the same contents as [NIST_SP-800-53_rev4_HIGH-baseline_profile.json](json/NIST_SP-800-53_rev4_HIGH-baseline_profile.json) except in XML format.
 
 ## NIST SP800-53 in OSCAL: Tagging Notes
 
