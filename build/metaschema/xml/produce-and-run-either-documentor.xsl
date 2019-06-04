@@ -55,7 +55,6 @@
     </xsl:variable>
     
     <xsl:template match="/">
-        <!--<xsl:message expand-text="true"> { resolve-uri($result-path, document-uri(/)) }</xsl:message>-->
         <xsl:result-document href="{$result-path}/{ $metaschema-code }.html" method="xhtml">
               
             <xsl:call-template name="yaml-header">
