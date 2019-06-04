@@ -40,8 +40,8 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
     filename="${filename%.*}"
     base="${filename/_metaschema/}"
     converter="$working_dir/json/convert/${base}_xml-to-json-converter.xsl"
-    converter_path=$(realpath --relative-to="$working_dir" "$converter")
     metaschema_path=$(realpath --relative-to="$working_dir" "$metaschema")
+    converter_path=$(realpath --relative-to="$working_dir" "$converter")
 
     #split on commas
     IFS=, read -a formats <<< "$gen_docs"
