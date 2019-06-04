@@ -19,7 +19,7 @@
     
     <xsl:variable name="metaschema-code" select="$source/*/short-name"/>
    
-    <xsl:param name="example-converter-xslt-path" as="xs:string">blah</xsl:param>
+    <xsl:param name="example-converter-xslt-path" as="xs:string" required="yes"/>
     <!--"C:\Users\wap1\Documents\OSCAL\docs_jekyll_uswds\content\documentation\schemas\oscal-catalog\catalog.md"-->
     
     <xsl:variable name="result-path" select="($output-path || '/_' || $metaschema-code || '-' || $target-format)"/>
@@ -32,7 +32,7 @@
             'source-node'                : $source,
             'stylesheet-params'          : map { xs:QName('target-format'): $target-format,
                                                  xs:QName('schema-path'):   document-uri(/),
-                                                 xs:QName('example-converter-xslt-path'): $example-converter-xslt-path
+                                                 xs:QName('example-converter-xslt'): $example-converter-xslt-path
                                                  } }" />
 
         <!-- The function fn:transform() returns a map, whose primary results are under 'output'
