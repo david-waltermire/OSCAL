@@ -7,6 +7,7 @@ references:
       OSCAL_REPO_DIR: git-oscal
       OSCAL_BUILD_DIR: build_artifacts
       SCHEMATRON_HOME: git-schematron
+      TERM: xterm
     working_directory: ~/oscal
   attach_build_workspace: &attach_build_workspace
     attach_workspace:
@@ -239,7 +240,7 @@ jobs: # a collection of
       - run:
           name: Generate schema documentation
           command: |
-            cp -r "$OSCAL_BUILD_DIR"/* "$OSCAL_REPO_DIR"
+            #cp -r "$OSCAL_BUILD_DIR"/* "$OSCAL_REPO_DIR"
             bash -x "$CICD_DIR/generate-model-documentation.sh" "$OSCAL_BUILD_DIR"
             # echo "-- fix the fact that we cannot generate directly to the build directory due to a bug"
             # mv docs "$OSCAL_BUILD_DIR"/docs
