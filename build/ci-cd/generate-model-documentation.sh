@@ -8,9 +8,9 @@ fi
 source $OSCALDIR/build/ci-cd/saxon-init.sh
 
 if [ -z "$1" ]; then
-  working_dir=$OSCALDIR
+  working_dir="$OSCALDIR"
 else
-  working_dir=$1
+  working_dir="$1"
 fi
 echo "${P_INFO}Working in '${P_END}${working_dir}${P_INFO}'.${P_END}"
 
@@ -40,6 +40,7 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
     filename="${filename%.*}"
     base="${filename/_metaschema/}"
     converter="$working_dir/json/convert/${base}_xml-to-json-converter.xsl"
+    converter_path=$(realpath --relative-to="$working_dir" "$converter")
     metaschema_path=$(realpath --relative-to="$working_dir" "$metaschema")
 
     #split on commas
@@ -65,7 +66,7 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
       echo "${P_INFO}Generating ${format^^} model documentation for metaschema '${P_END}${metaschema_path}${P_INFO}'.${P_END}"
       xsl_transform "$stylesheet" "$metaschema_path" "" \
         "target-format=${format}" \
-        "example-converter-xslt-path=${converter}" \
+        "example-converter-xslt-path=${converter_path}" \
         "output-path=docs/content/documentation/schemas"
       cmd_exitcode=$?
       if [ $cmd_exitcode -ne 0 ]; then
