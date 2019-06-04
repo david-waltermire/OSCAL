@@ -27,10 +27,10 @@ xsl_transform() {
 
     if [[ ! -z "$output_file" ]]; then
         java -cp "$classpath" net.sf.saxon.Transform \
-            $extra_params "-warnings:silent" "-o:$output_file" "-s:$source_file" "$stylesheet"
+            "-warnings:silent" "-o:$output_file" "-s:$source_file" "$stylesheet" "${extra_params}"
     else
         java -cp "$classpath" net.sf.saxon.Transform \
-            $extra_params "-warnings:silent" "-s:$source_file" "$stylesheet"
+            "-warnings:silent" "-s:$source_file" "$stylesheet" "${extra_params}"
     fi
 
     if [ "$?" -ne 0 ]; then
