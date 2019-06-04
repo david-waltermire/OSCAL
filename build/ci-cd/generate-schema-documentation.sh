@@ -36,6 +36,7 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
     extension="${filename##*.}"
     filename="${filename%.*}"
     base="${filename/_metaschema/}"
+    converter="$working_dir/xml/convert/${base}_xml-to-json-converter.xsl"
 
     #split on commas
     IFS=, read -a formats <<< "$gen_docs"
@@ -58,7 +59,7 @@ while IFS="|" read path gen_schema gen_converter gen_docs || [[ -n "$path" ]]; d
       esac
 
       echo "${P_INFO}Generating ${format^^} model documentation for metaschema '$metaschema'.${P_END}"
-      xsl_transform "$OSCALDIR/build/metaschema/xml/produce-and-run-either-documentor.xsl" "$metaschema" "" "target-format=${format}" "output-path=$working_dir/docs/content/documentation/schemas"
+      xsl_transform "$OSCALDIR/build/metaschema/xml/produce-and-run-either-documentor.xsl" "$metaschema" "" "target-format=${format}" "example-converter-xslt-path=${converter}" "output-path=${working_dir}/docs/content/documentation/schemas"
       cmd_exitcode=$?
       if [ $cmd_exitcode -ne 0 ]; then
         echo "${P_ERROR}Generating ${format^^} model documentation failed for '$metaschema'.${P_END}"
