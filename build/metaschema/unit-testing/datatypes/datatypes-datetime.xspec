@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:functx="http://www.functx.com"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    stylesheet="catalog:/stylesheet" xslt-version="2.0">
+    <x:scenario label="Generating XML Schema">
+        <x:context href="catalog:/generated-schema"/>
+
+        <x:expect select="$x:result" test="exists(xs:schemas/xs:element[@name='parent'])" label="test name is parent"/>
+    </x:scenario>
+</x:description>

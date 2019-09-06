@@ -22,7 +22,7 @@
 <!-- Including XSD namespace for post process -->
     <xsl:strip-space elements="METASCHEMA define-assembly define-field define-flag model choice valid-values remarks xs:*"/>
     
-    <xsl:variable name="target-namespace" select="string(/METASCHEMA/namespace)"/>
+    <xsl:variable name="target-namespace" select="string(/m:METASCHEMA/m:namespace)"/>
     
     <xsl:variable name="declaration-prefix" select="string(/METASCHEMA/short-name)"/>
     
@@ -37,14 +37,14 @@
     <!-- Produces intermediate results, w/o namespace alignment -->
     <!-- entry template -->
     
-    <xsl:param name="debug" select="'no'"/>
+    <xsl:param name="debug" select="'no'" as="xs:string"/>
     
     <xsl:template match="/">
         <xsl:variable name="unwired">
          <xsl:call-template name="build-schema"/>
     </xsl:variable>
     <xsl:choose>
-            <xsl:when test="$debug='yes'">
+            <xsl:when test="string($debug)='yes'">
                 <xsl:message>Running in 'debug' to show intermediate results</xsl:message>
                 <xsl:sequence select="$unwired"/>
             </xsl:when>

@@ -43,7 +43,7 @@ while [ $# -gt 0 ]; do
   arg="$1"
   case "$arg" in
     --scratch-dir)
-      SCRATCH_DIR="$(realunit_test_dir "$2")"
+      SCRATCH_DIR="$(realpath "$2")"
       shift # past unit_test_dir
       ;;
     --keep-temp-scratch-dir)
@@ -174,6 +174,44 @@ do
             exitcode=1
             continue;
           fi
+      fi
+
+      # Check if there is an xspec
+      xspec_file="${unit_test_path_prefix}.xspec"
+      if [ -f "$xspec_file" ]; then
+        # generate the XML schema
+        transform="$OSCALDIR/build/metaschema/xml/produce-xsd.xsl"
+        schema="${unit_test_scratch_dir_prefix}_generated-xml-schema.xsd"
+
+        if [ "$VERBOSE" = "true" ]; then
+          echo "  ${P_INFO}Generating XML schema for '${P_END}${metaschema_relative}${P_INFO}' as '${P_END}$schema${P_INFO}'.${P_END}"
+        fi
+        result=$(xsl_transform "$transform" "$metaschema" "$schema" 2>&1)
+        cmd_exitcode=$?
+        if [ $cmd_exitcode -ne 0 ]; then
+          echo "  ${P_ERROR}Failed to generate XML schema for '${P_END}${metaschema_relative}${P_ERROR}'.${P_END}"
+          echo "${P_ERROR}${result}${P_END}"
+          exitcode=1
+          continue;
+        fi
+
+        # generate the XML Catalog, which will be used to map paths
+        transform="$OSCALDIR/build/metaschema/unit-testing/identity.xsl"
+        xml_catalog="${unit_test_scratch_dir_prefix}_catalog.xml"
+        cat << EOF > "${xml_catalog}"
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <uri name="catalog:/stylesheet" uri="${transform}"/>
+  <uri name="catalog:/metaschema" uri="${metaschema}"/>
+  <uri name="catalog:/generated-schema" uri="${schema}"/>
+</catalog>
+EOF
+
+        # Execute the XSpec .
+        SAXON_CP=$(JARS=("$SAXON_HOME"/*.jar ~/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar); IFS=:; echo "${JARS[*]}") \
+        TEST_DIR="${unit_test_scratch_dir_prefix}-xspec" \
+        ~/github/xspec/xspec/bin/xspec.sh -catalog "${xml_catalog}" -t "$xspec_file"
+        exit $?
       fi
 
       # Now generate the JSON schema

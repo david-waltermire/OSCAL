@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="file:/home/davidwal/github/xspec/xspec/src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:functx="http://www.functx.com"
+          stylesheet="catalog:/stylesheet"
+          date="2019-09-05T01:19:41.408307Z"
+          xspec="file:/home/davidwal/github/david-waltermire-nist/OSCAL/build/metaschema/unit-testing/datatypes/datatypes-datetime.xspec">
+   <x:scenario>
+      <x:label>Generating XML Schema</x:label>
+      <x:context href="catalog:/metaschema"/>
+   </x:scenario>
+</x:report>
