@@ -6,6 +6,6 @@
     <x:scenario label="Generating XML Schema">
         <x:context href="catalog:/generated-schema"/>
 
-        <x:expect select="$x:result" test="exists(xs:schemas/xs:element[@name='parent'])" label="test name is parent"/>
+        <x:expect select="$x:result" test="exists(xs:schema/xs:element[@name='parent'])" label="test name is parent"/>
     </x:scenario>
 </x:description>
