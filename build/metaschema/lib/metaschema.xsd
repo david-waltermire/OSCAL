@@ -422,8 +422,6 @@
       <xs:enumeration value="integer" />
       <xs:enumeration value="nonNegativeInteger"/>
       <xs:enumeration value="positiveInteger"/>
-      <xs:enumeration value="dateTime"/>
-      <xs:enumeration value="date"/>
       
       <!-- specialized datatypes -->
       <xs:enumeration value="dateTime-with-timezone"/>
