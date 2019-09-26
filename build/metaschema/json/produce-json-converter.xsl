@@ -371,13 +371,7 @@
         <xsl:comment> 000 Handling assembly "{ @name }" 000 </xsl:comment>
         <xsl:comment> 000 NB - template matching 'array' overrides this one 000 </xsl:comment>
         <xsl:variable name="assembly-construction">
-            <XSLT:element name="{@name}" namespace="{$target-namespace}">
-                <xsl:for-each select="child::json-key">
-                    <XSLT:apply-templates select="@key" mode="as-attribute"/>
-                </xsl:for-each>
-                <XSLT:apply-templates mode="as-attribute"/>
-                <xsl:apply-templates/>
-            </XSLT:element>
+            <xsl:apply-templates select="." mode="assembly-construction"/>
         </xsl:variable>
         <XSLT:template match="{$full-match}" priority="4" mode="json2xml">
             <xsl:copy-of select="$assembly-construction"/>
@@ -407,7 +401,17 @@
         </xsl:if>
         <!--<xsl:call-template name="drop-address"/>-->
     </xsl:template>
- 
+
+    <xsl:template match="define-assembly" mode="assembly-construction">
+            <XSLT:element name="{@name}" namespace="{$target-namespace}">
+            <xsl:for-each select="child::json-key">
+                <XSLT:apply-templates select="@key" mode="as-attribute"/>
+            </xsl:for-each>
+            <XSLT:apply-templates mode="as-attribute"/>
+            <xsl:apply-templates/>
+        </XSLT:element>
+    </xsl:template>
+    
     <xsl:template name="furniture">
         
         <XSLT:output indent="yes"/>
