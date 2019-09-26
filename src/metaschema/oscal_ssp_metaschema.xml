@@ -538,13 +538,13 @@
             <group-as name="system-roles" in-json="BY_KEY"/>
          </assembly>
          
-<!--         <assembly ref="component" max-occurs="unbounded">
+         <assembly ref="component" max-occurs="unbounded">
             <group-as name="components" in-json="BY_KEY"/>
          </assembly>
          <assembly ref="capability" max-occurs="unbounded">
             <group-as name="capabilities" in-json="BY_KEY"/>
          </assembly>
--->         <assembly ref="service" max-occurs="unbounded">
+         <assembly ref="service" max-occurs="unbounded">
             <description>A collection of the ports, protocols, and services used within the
                system.</description>
             <group-as name="services"/>
@@ -639,6 +639,112 @@
          <p>To be validated as a natural number (integer &gt;= 1)</p>
       </remarks>
    </define-field>
+   <define-assembly name="component">
+      <formal-name>Component</formal-name>
+      <description>A defined component that can be part of an implemented system.</description>
+      <json-key flag-name="id"/>
+      <flag name="id" as-type="NCName" required="yes">
+         <formal-name>Component Identifier</formal-name>
+         <description>A unique identifier for a component.</description>
+      </flag>
+      <flag name="name" as-type="string" required="yes">
+         <formal-name>Component Name</formal-name>
+         <description>The component's human-readable name.</description>
+      </flag>
+      <flag ref="component-type"/>
+      <model>
+         <field ref="description" min-occurs="1"/>
+         <field ref="prop" max-occurs="unbounded">
+            <group-as name="properties"/>
+            <flag ref="name">
+               <allowed-values allow-other="yes">
+                  <enum value="version">The version of the component.</enum>
+                  <enum value="model">The model of the component.</enum>
+                  <enum value="release-date">The date the component was released.</enum>
+               </allowed-values>
+            </flag>
+         </field>
+         <field ref="link" max-occurs="unbounded">
+            <group-as name="links"/>
+            <flag ref="rel">
+               <allowed-values allow-other="yes">
+                  <enum value="depends-on">A reference to another component that this component has a dependency on.</enum>
+                  <enum value="validated-by">A reference to another component of type=validation, that is a validation (e.g., FIPS 140-2) for this component</enum>
+                  <enum value="proof-of-compliance">A pointer to a validation record (e.g., FIPS 140-2) or other authorization.</enum>
+               </allowed-values>
+            </flag>
+         </field>
+         <assembly ref="supplier" min-occurs="1" max-occurs="unbounded">
+            <group-as name="suppliers"/>
+            <remarks>
+               <p>Multiple suppliers can be used to show the original provider, plus any intermediaries (e.g., resellers).</p>
+            </remarks>
+         </assembly>
+         <assembly ref="responsible-party" max-occurs="unbounded">
+            <group-as name="responsible-parties" in-json="BY_KEY"/>
+         </assembly>
+         <assembly ref="component-relationship" max-occurs="unbounded">
+            <group-as name="component-relationships" in-json="BY_KEY"/>
+         </assembly>
+         <field ref="remarks"/>
+      </model>
+      <remarks>
+         <p>Components may be products, services, APIs, policies, processes, plans, guidance,
+            standards, or other tangible items that enable security and/or privacy.</p>
+         <p>The <code>type</code> indicates which of these component types is represented.</p>
+         <p>A group of components may be aggregated into a <code>capability</code>. For example, am account management capability that consists of an account management process, and a Lightweight Directory Access Protocol (LDAP) software implementation.</p>
+         <p>Capabilities are expressed by combining one or more components.</p>
+      </remarks>
+   </define-assembly>
+
+   <define-assembly name="component-relationship">
+      <formal-name>Component Relationship</formal-name>
+      <description>Establishes a relationship of a specific type between this component and another.</description>
+      <json-key flag-name="component-id"/>
+      <flag ref="component-id" required="yes"/>
+      <flag name="type">
+         <formal-name>Component Relationship Type</formal-name>
+         <description>The type of relationship.</description>
+         <!-- TODO: enumer valid values -->
+      </flag>
+      <model>
+         <field ref="remarks"/>        
+      </model>
+   </define-assembly>
+
+   <define-assembly name="capability">
+      <formal-name>Capability</formal-name>
+      <description>A grouping of other components and/or capabilities.</description>
+      <json-key flag-name="id"/>
+      <flag name="id" as-type="NCName" required="yes">
+         <formal-name>Capability Identifier</formal-name>
+         <description>A unique identifier for a capability.</description>
+      </flag>
+      <flag name="name" as-type="string" required="yes">
+         <formal-name>Capability Name</formal-name>
+         <description>The capability's human-readable name.</description>
+      </flag>
+      <model>
+         <field ref="description" min-occurs="1"/>
+         <field ref="prop" max-occurs="unbounded">
+            <group-as name="properties"/>
+         </field>
+         <field ref="link" max-occurs="unbounded">
+            <group-as name="links"/>
+            <!-- TODO: Model specific link relationships for:
+          depends-on: component has a dependency on another component
+          validated-by:, etc.
+        -->
+         </field>
+         <assembly ref="incorporates-capability" max-occurs="unbounded">
+            <group-as name="incorporates-capabilities" in-json="BY_KEY"/>
+         </assembly>
+         <assembly ref="incorporates-component" max-occurs="unbounded">
+            <group-as name="incorporates-components" in-json="BY_KEY"/>
+         </assembly>
+         <field ref="remarks"/>
+      </model>
+   </define-assembly>
 
    <define-assembly name="service">
       <formal-name>Service</formal-name>
@@ -651,10 +757,10 @@
             <group-as name="ssp-protocol"/>
          </assembly>
          <field ref="purpose"/>
-<!--         <assembly ref="used-by-component" max-occurs="unbounded">
+         <assembly ref="used-by-component" max-occurs="unbounded">
             <group-as name="used-by-components" in-json="SINGLETON_OR_ARRAY"/>
          </assembly>
--->      </model>
+      </model>
       <example/>
    </define-assembly>
    <define-assembly name="protocol">
@@ -682,6 +788,14 @@
       <formal-name>Purpose</formal-name>
       <description>Describes the purpose for the service within the system.</description>
    </define-field>
+   <define-assembly name="used-by-component">
+      <formal-name>Used By</formal-name>
+      <description>Identifies a type of uses for the service. A component can be optionally identified.</description>
+      <flag ref="component-id"/>
+      <model>
+         <field ref="description" min-occurs="1"/>
+      </model>
+   </define-assembly>
    <define-assembly name="interconnection">
       <!-- TODO: provide a mechanism to reference another OSCAL SSP or other documentation. -->
       <!-- TODO: provide a mechanism to reference the ISA. -->
@@ -773,10 +887,10 @@
          <assembly ref="responsible-party" max-occurs="unbounded">
             <group-as name="responsible-parties" in-json="BY_KEY"/>
          </assembly>
-<!--         <assembly ref="implemented-component" max-occurs="unbounded">
+         <assembly ref="implemented-component" max-occurs="unbounded">
             <group-as name="implemented-components" in-json="BY_KEY"/>
          </assembly>
--->         <field ref="remarks"/>
+         <field ref="remarks"/>
       </model>
       <example/>
    </define-assembly>
@@ -969,6 +1083,23 @@
       <description>Virtual LAN or Network ID.</description>
    </define-field>
 
+   <define-assembly name="implemented-component">
+      <formal-name>Implemented Component</formal-name>
+      <description>The set of componenets that are implemented in a given system inventory item.</description>
+      <json-key flag-name="component-id"/>
+      <flag ref="component-id" required="yes"/>
+      <flag name="type">
+         <formal-name>Implementation Type</formal-name>
+         <description>The type of implementation</description>
+         <allowed-values>
+            <enum value="runs-software">The implemented component is a 'software' component that the inventory item has installed and uses.</enum>
+            <enum value="enforces-policy">The implemented component is a 'policy' component that the inventory item supports and enforces.</enum>
+         </allowed-values>
+      </flag>
+      <model>
+         <field ref="remarks"/>
+      </model>
+   </define-assembly>
 
    <define-assembly name="control-implementation">
       <formal-name>Control Implementation</formal-name>
@@ -999,13 +1130,13 @@
             <group-as name="links"/>
             <!-- TODO: Model specific link relationships -->
          </field>
-<!--         <assembly ref="by-component" max-occurs="unbounded">
+         <assembly ref="by-component" max-occurs="unbounded">
             <group-as name="by-components" in-json="BY_KEY"/>
          </assembly>
          <assembly ref="by-capability" max-occurs="unbounded">
             <group-as name="by-capabilities" in-json="BY_KEY"/>
          </assembly>
--->         <assembly ref="set-param" max-occurs="unbounded">
+         <assembly ref="set-param" max-occurs="unbounded">
             <group-as name="set-params" in-json="BY_KEY"/>
          </assembly>
          <assembly ref="statement" max-occurs="unbounded">
@@ -1039,17 +1170,63 @@
          </field>
          <!--            <assembly ref="using"/>
 -->            <!-- TODO: Implement parameters -->
-<!--         <assembly ref="by-component" max-occurs="unbounded">
+         <assembly ref="by-component" max-occurs="unbounded">
             <group-as name="by-components" in-json="BY_KEY"/>
          </assembly>
          <assembly ref="by-capability" max-occurs="unbounded">
             <group-as name="by-capabilities" in-json="BY_KEY"/>
          </assembly>
--->         <field ref="remarks"/>
+         <field ref="remarks"/>
       </model>
    </define-assembly>
    
+   <define-assembly name="by-component">
+      <formal-name>Component Control Implementation</formal-name>
+      <description>Defines how the referenced component implements a set of controls.</description>
+      <json-key flag-name="component-id"/>
+      <flag ref="component-id" required="yes"/>
+      <model>
+         <field ref="description" min-occurs="1"/>
+         <field ref="system-role-id" max-occurs="unbounded">
+            <description>The system role responsible for the control implementation.</description>
+            <group-as name="role-ids"/>
+         </field>
+         <assembly ref="set-param" max-occurs="unbounded">
+            <group-as name="set-params" in-json="BY_KEY"/>
+         </assembly>
+         <field ref="prop" max-occurs="unbounded">
+            <group-as name="properties"/>
+         </field>
+         <field ref="link" max-occurs="unbounded">
+            <group-as name="links"/>
+            <!-- TODO: Model specific link relationships -->
+         </field>
+      </model>
+   </define-assembly>
 
+   <define-assembly name="by-capability">
+      <formal-name>capability Control Implementation</formal-name>
+      <description>Defines how the referenced capability implements a set of controls.</description>
+      <json-key flag-name="capability-id"/>
+      <flag ref="capability-id" required="yes"/>
+      <model>
+         <field ref="description" min-occurs="1"/>
+         <field ref="system-role-id" max-occurs="unbounded">
+            <description>The system role responsible for the control implementation.</description>
+            <group-as name="role-ids"/>
+         </field>
+         <assembly ref="set-param" max-occurs="unbounded">
+            <group-as name="set-params" in-json="BY_KEY"/>
+         </assembly>
+         <field ref="prop" max-occurs="unbounded">
+            <group-as name="properties"/>
+         </field>
+         <field ref="link" max-occurs="unbounded">
+            <group-as name="links"/>
+            <!-- TODO: Model specific link relationships -->
+         </field>
+      </model>
+   </define-assembly>
 
    <define-assembly name="set-param">
       <formal-name>Set Parameter Value</formal-name>
