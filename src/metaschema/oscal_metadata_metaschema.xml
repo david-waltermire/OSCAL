@@ -431,7 +431,7 @@
          <description>Indicates the type of note.</description>
       </flag>
       <model>
-         <field ref="note" in-xml="UNWRAPPED"/>
+         <field ref="note" in-xml="unwrapped"/>
       </model>
    </define-assembly>
    <define-field name="desc">
