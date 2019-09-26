@@ -118,6 +118,7 @@
    <define-field name="system-id" as-type="string">
       <formal-name>System Identification</formal-name>
       <description>A unqiue identifier for the system described by this system security plan.</description>
+      <json-value-key>id</json-value-key>
       <flag name="identifier-type" as-type="uri">
          <formal-name>Identification System Type</formal-name>
          <description>Defines the namespace or identifcation system from which the provided identifier was assigned from.</description>
