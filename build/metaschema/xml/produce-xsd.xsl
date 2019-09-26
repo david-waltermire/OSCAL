@@ -20,7 +20,7 @@
     <xsl:output indent="yes"/>
 
 <!-- Including XSD namespace for post process -->
-    <xsl:strip-space elements="METASCHEMA define-assembly define-field define-flag model choice allowed-values remarks xs:*"/>
+    <xsl:strip-space elements="METASCHEMA define-assembly define-field define-flag model choice valid-values remarks xs:*"/>
     
     <xsl:variable name="target-namespace" select="string(/METASCHEMA/namespace)"/>
     
@@ -38,10 +38,6 @@
     <!-- entry template -->
     
     <xsl:param name="debug" select="'no'"/>
-    
-    <!--<xsl:template match="/">
-        <xsl:apply-templates select="/METASCHEMA"/>
-    </xsl:template>-->
     
     <xsl:template match="/">
         <xsl:variable name="unwired">
@@ -63,6 +59,8 @@
 
     </xsl:template>
 
+    
+    
     <!--MAIN ACTION HERE -->
     
     <xsl:template name="build-schema">
@@ -130,7 +128,6 @@
             <xs:complexType mixed="true">
                 <xsl:apply-templates select="flag"/>
             </xs:complexType>
-            <xsl:apply-templates select="allowed-values"/>
         </xs:element>
     </xsl:template>
     
@@ -169,9 +166,6 @@
                 <xsl:with-param name="datatype" select="@as-type"/>
             </xsl:call-template>
             <xsl:apply-templates select="." mode="annotated"/>
-            <xsl:apply-templates select="allowed-values">
-                <xsl:with-param name="datatype" select="@as-type"/>
-            </xsl:apply-templates>
         </xs:element>
     </xsl:template>
     
@@ -287,7 +281,7 @@
     
     <xsl:template match="flag">
         <xsl:variable name="datatype" select="(@as-type,key('definition-by-name',@ref)/@as-type)[1]"/>
-        <xsl:variable name="value-list" select="(allowed-values,key('definition-by-name',@ref)/allowed-values)[1]"/>
+        <xsl:variable name="value-list" select="(valid-values,key('definition-by-name',@ref)/valid-values)[1]"/>
         <xs:attribute name="{ (@name,@ref)[1] }">
             <xsl:if test="(@required='yes') or (@name=(../json-key/@flag-name,../json-value-key/@flag-name))">
                 <xsl:attribute name="use">required</xsl:attribute>
@@ -319,7 +313,7 @@
     </xsl:template>
 
     <!-- When allow-other=yes, we union the enumeration with the declared datatype -->        
-    <xsl:template match="allowed-values[@allow-other='yes']">
+    <xsl:template match="valid-values[@allow-other='yes']">
         <xsl:param name="datatype" as="xs:string">string</xsl:param>
         <xs:simpleType>
             <xs:union memberTypes="xs:{$datatype}">
@@ -332,7 +326,7 @@
         </xs:simpleType>
     </xsl:template>
     
-    <xsl:template match="allowed-values">
+    <xsl:template match="valid-values">
         <xsl:param name="datatype" as="xs:string">string</xsl:param>
         <xs:simpleType>
             <xs:restriction base="xs:{$datatype}">
@@ -341,8 +335,8 @@
         </xs:simpleType>
     </xsl:template>
     
-    <xsl:template match="allowed-values/enum">
-        <xs:enumeration value="{@value}">
+    <xsl:template match="valid-values/value">
+        <xs:enumeration value="{@name}">
             <xsl:if test="matches(.,'\S')">
                 <xs:annotation>
                     <xs:documentation>
