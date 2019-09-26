@@ -30,8 +30,7 @@
       "security-sensitivity-level": "",
       "system-information": {
         "information-types": {
-          "name": "System and Network Monitoring",
-          "nist-id": "C.3.5.8",
+          "nist-id": "C,3,5,8",
           "description": "This systemn maintains historical logging and auditing information for all client devices connected to this system.",
           "confidentiality-impact": {"base": "moderate"},
           "integrity-impact": {"base": "moderate"},
@@ -219,11 +218,9 @@
       "description": "",
       "implemented-requirements": {
         "control-id": "au-1",
-        "description": "",
         "statements": {
           "au-1smt": {"description": "N/A"},
           "au-1smt.a": {
-            "description": "",
             "by-components": {
               "component-logging-policy": {
                 "description": "The legal deparment develops, documents, and disseminates this policy to all staff and contractors within the organization.",
