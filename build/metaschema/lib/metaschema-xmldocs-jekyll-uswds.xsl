@@ -239,7 +239,9 @@
          <xsl:if test="empty(@required)"> (<i>optional</i>)</xsl:if>
          <xsl:apply-templates select="." mode="metaschema-type"/>
          <xsl:apply-templates select="if (description) then description else key('definitions', @name)/description" mode="model"/>
-         <xsl:apply-templates select="if (allowed-values) then allowed-values else key('definitions', @ref)/allowed-values"/>
+         <xsl:if test="valid-values or key('definitions', @ref)/valid-values">
+            <xsl:apply-templates select="if (valid-values) then valid-values else key('definitions', @ref)/valid-values"/>
+         </xsl:if>
          <xsl:apply-templates select="remarks" mode="model"/>
       </li>
    </xsl:template>
@@ -277,7 +279,9 @@
          <xsl:apply-templates select="." mode="occurrence-code"/>
          <xsl:apply-templates select="." mode="metaschema-type"/>
          <xsl:apply-templates select="if (description) then description else key('definitions', @ref)/description" mode="model"/>
-         <xsl:apply-templates select="if (allowed-values) then allowed-values else key('definitions', @ref)/allowed-values"/>
+         <xsl:if test="valid-values or key('definitions', @ref)/valid-values">
+            <xsl:apply-templates select="if (valid-values) then valid-values else key('definitions', @ref)/valid-values"/>
+         </xsl:if>
          <xsl:apply-templates select="remarks" mode="model"/>
       </li>
    </xsl:template>
