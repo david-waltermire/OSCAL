@@ -52,8 +52,8 @@
             <xsl:text>&#xA;</xsl:text>
             
             <XSLT:character-map name="delimiters">
-               <!-- Rewrites Unicode PUA char E0000 to reverse solidus -->
-               <!--<XSLT:output-character character="&#xE0000;" string="\"/>-->
+                <!--<XSLT:output-character character="&lt;" string="\u003c"/>
+                <XSLT:output-character character="&gt;" string="\u003e"/>-->
             </XSLT:character-map>
             
             <XSLT:param name="json-indent" as="xs:string">no</XSLT:param>
@@ -65,11 +65,9 @@
             -->
             <XSLT:template match="text()" mode="md #default">
                 <!-- Escapes go here       -->
-                <!-- prefixes ` ~ ^ * with char E0000 from Unicode PUA -->
-                <!--<XSLT:value-of select="replace(., '([`~\^\*''&quot;])', '&#xE0000;$1')"/>-->
-                <!-- prefixes ` ~ ^ * ' " with backward solidus -->
-                <XSLT:value-of select="replace(., '([`~\^\*&quot;])', '\\$1')"/>
-                <!--<XSLT:value-of select="."/>-->
+                <!--<XSLT:value-of select="replace(.,'\s+',' ') ! replace(.,'([`~\^\*])','\\$1')"/>-->
+                <!--<XSLT:value-of select="replace(., '([`~\^\*''&quot;])', '\\$1')"/>-->
+                <XSLT:value-of select="."/>
             </XSLT:template>
             
             <XSLT:variable name="write-options" as="map(*)" expand-text="true">
