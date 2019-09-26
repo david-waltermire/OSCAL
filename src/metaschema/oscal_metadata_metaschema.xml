@@ -157,6 +157,7 @@
    <define-field name="doc-id">
       <formal-name>Document Identifier</formal-name>
       <description>A document identifier qualified by an identifier <code>type</code>.</description>
+      <json-value-key>id</json-value-key>
       <flag ref="type" required="yes">
          <description>Qualifies the kind of document identifier.</description>
          <allowed-values allow-other="yes">
@@ -318,11 +319,13 @@
    <define-field name="person-id">
       <formal-name>Personal Identifier</formal-name>
       <description>An identifier for a person (such as an ORCID) using a designated scheme.</description>
+      <json-value-key>id</json-value-key>
       <flag ref="type"/>
    </define-field>
    <define-field name="org-id">
       <formal-name>Organization Identifier</formal-name>
       <description>An identifier for an organization using a designated scheme.</description>
+      <json-value-key>id</json-value-key>
       <flag ref="type"/>
    </define-field>
    <define-assembly name="rlink">
@@ -423,6 +426,7 @@
    <define-field name="phone">
       <formal-name>Telephone</formal-name>
       <description>Contact number by telephone</description>
+      <json-value-key>number</json-value-key>
       <flag ref="type">
          <description>Indicates the type of phone number.</description>
          <allowed-values allow-other="yes">
@@ -546,6 +550,7 @@
    <define-field name="base64" as-type="base64">
       <formal-name>Base64</formal-name>
       <description/>
+      <json-value-key>value</json-value-key>
       <flag ref="filename"/>
       <flag ref="media-type"/>
    </define-field>
