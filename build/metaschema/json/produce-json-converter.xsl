@@ -32,7 +32,7 @@
     
     <xsl:template match="/">
         <!--<xsl:apply-templates select="METASCHEMA"/>-->
-        <xsl:apply-templates select="$composed-metaschema/METASCHEMA"/>
+         XXX <xsl:apply-templates select="$composed-metaschema/METASCHEMA"/>
     </xsl:template>
     
     <xsl:template match="METASCHEMA">
@@ -129,7 +129,7 @@
     <!-- 'any' keyword not handled  -->
     <xsl:template match="any" priority="10"/>
     
-    <xsl:template match="model | choice" priority="3">
+    <xsl:template match="model | choice" priority="2">
         <xsl:apply-templates/>
     </xsl:template>
     
@@ -258,6 +258,8 @@
                 mode="json2xml">
                 <XSLT:apply-templates/>
             </XSLT:template>
+                
+            
             
             <!-- Now, a template to match where we want attributes - flags not reserved for the value key ...  -->
             <XSLT:template
