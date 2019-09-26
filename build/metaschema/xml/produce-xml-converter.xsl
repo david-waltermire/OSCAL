@@ -63,7 +63,7 @@
             <!-- Note that Saxon's JSON serializer already escapes characters per
                  https://www.w3.org/XML/Group/qtspecs/specifications/xpath-functions-31/html/Overview.html#func-xml-to-json 
             -->
-            <XSLT:template match="text()" mode="md">
+            <XSLT:template match="text()" mode="md #default">
                 <!-- Escapes go here       -->
                 <!-- prefixes ` ~ ^ * with char E0000 from Unicode PUA -->
                 <!--<XSLT:value-of select="replace(., '([`~\^\*''&quot;])', '&#xE0000;$1')"/>-->
@@ -154,24 +154,15 @@
         </XSLT:template>
     </xsl:template>
     
-    <xsl:template match="define-field[@as-type=('markup-line','markup-multiline')][empty(flag)]" priority="3">
+    <xsl:template match="define-field[empty(flag)]" priority="2">
         <XSLT:template match="{@name}" mode="xml2json">
             <string key="{@name}">
-                <!-- Mode 'md' will escape characters for Markdown. -->
+                <!-- When the input has no markup, no markdown  will be produced. -->
                 <XSLT:apply-templates mode="md"/>
             </string>
         </XSLT:template>
     </xsl:template>
-    
-    <xsl:template match="define-field[empty(flag)]" priority="2">
-        <XSLT:template match="{@name}" mode="xml2json">
-            <string key="{@name}">
-                <!-- Not escaping any characters this time. -->
-                <XSLT:apply-templates mode="#current"/>
-            </string>
-        </XSLT:template>
-    </xsl:template>
-    
+        
     <xsl:template match="define-field">
         <XSLT:template match="{@name}" mode="xml2json">
             <XSLT:variable name="text-key">
