@@ -48,7 +48,7 @@
       <description>Used to import the OSCAL profile representing the system's control baseline.</description>
       <flag ref="href" required="yes"/>
       <model>
-         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
    </define-assembly>
 
@@ -96,7 +96,7 @@
          <assembly ref="security-impact-level" min-occurs="1">
             <!-- TODO: Is this needed, or can it be computed based on the high water mark of the information types? -->
          </assembly>
-         <field ref="status" min-occurs="1" in-xml="WITH-WRAPPER">
+         <field ref="status" min-occurs="1" in-xml="WITH_WRAPPER">
             <flag ref="state">
                <allowed-values>
                   <enum value="operational">The system is currently operating and is in production.</enum>
@@ -354,7 +354,7 @@
          <assembly ref="diagram" max-occurs="unbounded">
             <group-as name="diagrams" in-json="BY_KEY"/>
          </assembly>
-         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
       <example/>
    </define-assembly>
@@ -369,7 +369,7 @@
       </flag>
       <flag ref="href" required="yes"/>
       <model>
-         <field ref="description" in-xml="WITH-WRAPPER">
+         <field ref="description" in-xml="WITH_WRAPPER">
             <description>A description of the diagram (e.g., alternate text). This can be used to support compliance with requirements from Section 508 of the United States Workforce Rehabilitation Act of 1973.</description>
          </field>
       </model>
@@ -386,11 +386,11 @@
       <formal-name>Network Architecture Diagrams</formal-name>
       <description>TBD</description>
       <model>
-         <field ref="description" min-occurs="1" in-xml="WITH-WRAPPER"/>
+         <field ref="description" min-occurs="1" in-xml="WITH_WRAPPER"/>
          <assembly ref="diagram" max-occurs="unbounded">
             <group-as name="diagrams" in-json="BY_KEY"/>
          </assembly>
-         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
       <example/>
    </define-assembly>
@@ -399,11 +399,11 @@
       <formal-name>Data Flow</formal-name>
       <description>TBD</description>
       <model>
-         <field ref="description" min-occurs="1" in-xml="WITH-WRAPPER"/>
+         <field ref="description" min-occurs="1" in-xml="WITH_WRAPPER"/>
          <assembly ref="diagram" max-occurs="unbounded">
             <group-as name="diagrams" in-json="BY_KEY"/>
          </assembly>
-         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
       <example/>
    </define-assembly>
@@ -532,8 +532,8 @@
       </flag>
       <flag ref="component-type" required="yes"/>
       <model>
-         <field ref="description" min-occurs="1" in-xml="WITH-WRAPPER"/>
-         <field ref="status" min-occurs="1" in-xml="WITH-WRAPPER">
+         <field ref="description" min-occurs="1" in-xml="WITH_WRAPPER"/>
+         <field ref="status" min-occurs="1" in-xml="WITH_WRAPPER">
             <flag ref="state">
                <allowed-values>
                   <enum value="under-development">The component is being designed, developed, or implemented.</enum>
@@ -577,7 +577,7 @@
 <!--         <assembly ref="component-relationship" max-occurs="unbounded">
             <group-as name="component-relationships" in-json="BY_KEY"/>
          </assembly>
--->         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+-->         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
       <remarks>
          <p>Components may be products, services, APIs, policies, processes, plans, guidance,
@@ -737,7 +737,7 @@
          <assembly ref="inventory-item" min-occurs="1" max-occurs="unbounded">
             <group-as name="inventory-items"/>
          </assembly>
-        <field ref="remarks" in-xml="WITH-WRAPPER"/>
+        <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
       <example/>
    </define-assembly>
@@ -771,7 +771,7 @@
 <!--         <assembly ref="implemented-component" max-occurs="unbounded">
             <group-as name="implemented-components" in-json="BY_KEY"/>
          </assembly>
--->         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+-->         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
       <example/>
    </define-assembly>
@@ -995,7 +995,7 @@
          </assembly>
          <!--            <assembly ref="using"/>
 -->            <!-- TODO: Implement parameters -->
-         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
    </define-assembly>
    
@@ -1027,7 +1027,7 @@
          <assembly ref="by-capability" max-occurs="unbounded">
             <group-as name="by-capabilities" in-json="BY_KEY"/>
          </assembly>
--->         <field ref="remarks" in-xml="WITH-WRAPPER"/>
+-->         <field ref="remarks" in-xml="WITH_WRAPPER"/>
       </model>
    </define-assembly>
    
