@@ -48,7 +48,7 @@
       <!-- TODO: enumer valid values -->
     </flag>
     <model>
-      <field ref="remarks" in-xml="WITH-WRAPPER"/>        
+      <field ref="remarks" in-xml="WITH_WRAPPER"/>        
     </model>
   </define-assembly>
   
@@ -82,7 +82,7 @@
       <assembly ref="incorporates-component" max-occurs="unbounded">
         <group-as name="incorporates-components" in-json="BY_KEY"/>
       </assembly>
-      <field ref="remarks" in-xml="WITH-WRAPPER"/>
+      <field ref="remarks" in-xml="WITH_WRAPPER"/>
     </model>
   </define-assembly>
   
@@ -109,7 +109,7 @@
       </allowed-values>
     </flag>
     <model>
-      <field ref="remarks" in-xml="WITH-WRAPPER"/>
+      <field ref="remarks" in-xml="WITH_WRAPPER"/>
     </model>
   </define-assembly>
   
