@@ -3,6 +3,8 @@ title: Assessment Results Model
 heading: "OSCAL Assessment Layer: Assessment Results Model"
 description: XML and JSON format documentation for the OSCAL Assessment Results model, which is part of the OSCAL Assessment Results layer. These formats model the findings of a periodic or continuous assessment.
 weight: 65
+aliases:
+  - /documentation/schema/assessment-results/
 ---
 
 The OSCAL [Assessment Results model](/documentation/schema/assessment-results-layer/assessment-results/) is part of the [OSCAL Assessment Results Layer](/documentation/schema/assessment-results-layer/). It defines structured, machine-readable XML, JSON, and YAML representations of the information contained within an assessment report.

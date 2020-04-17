@@ -3,6 +3,8 @@ title: Plan of Action and Milestones (POA&M) Model
 heading: "OSCAL Assessment Results Layer: Plan of Action and Milestones (POA&M) Model"
 description: XML and JSON format documentation for the OSCAL Plan of Action and Milestones (POA&M) model, which is part of the OSCAL Assessment Results layer. These formats model the findings of a periodic or continuous assessment.
 weight: 70
+aliases:
+  - /documentation/schema/poam/
 ---
 
 The OSCAL Plan of Action and Milestones (POA&M) model is part of the [OSCAL Results Layer](/documentation/schema/assessment-results-layer/). It defines structured, machine-readable XML, JSON, and YAML representations of the information contained within a POA&M. 
