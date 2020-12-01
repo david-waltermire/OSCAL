@@ -152,8 +152,9 @@
             <enum value="proof-of-compliance">A pointer to a validation record (e.g., FIPS 140-2) or other compliance information.</enum>
             <!-- rel values to also be allowed in implemented-component -->
             <enum value="baseline-template">A reference to the baseline template used to configure the asset.</enum>
-            <enum value="uses-service">This service is used by the referenced component identifier.</enum>
+            <enum value="uses-service">This component uses the service provided by the identified service component.</enum>
             <enum value="system-security-plan">A link to the system security plan of the external system.</enum>
+            <enum value="uses-network">This component uses the network provided by the identified network component.</enum>
          </allowed-values>
          
          <allowed-values target="responsible-role/@role-id|control-implementation/implemented-requirement/responsible-role/@role-id||control-implementation/implemented-requirement/statement/responsible-role/@role-id" allow-other="yes">

@@ -126,8 +126,9 @@
             <enum value="proof-of-compliance">A pointer to a validation record (e.g., FIPS 140-2) or other compliance information.</enum>
             <!-- rel values to also be allowed in implemented-component -->
             <enum value="baseline-template">A reference to the baseline template used to configure the asset.</enum>
-            <enum value="uses-service">This service is used by the referenced component identifier.</enum>
+            <enum value="uses-service">This component uses the service provided by the identified service component.</enum>
             <enum value="system-security-plan">A link to the system security plan of the external system.</enum>
+            <enum value="uses-network">This component uses the network provided by the identified network component.</enum>
          </allowed-values>
 
          <allowed-values target="responsible-role/@role-id" allow-other="yes">
@@ -245,6 +246,7 @@
             <enum value="guidance">Any guideline or recommendation.</enum>
             <enum value="standard"/>
             <enum value="validation">An external assessment performed on some other component, that has been validated by a third-party.</enum>
+            <enum value="network">A physical or virtual network.</enum>
          </allowed-values>
       </constraint>
    </define-flag>
@@ -521,7 +523,7 @@
       <formal-name>Implemented Component</formal-name>
       <description>The set of components that are implemented in a given system inventory item.</description>
       <json-key flag-name="component-uuid"/>
-      <define-flag required="yes" name="component-uuid" as-type="uuid">
+      <define-flag name="component-uuid" as-type="uuid" required="yes" >
          <formal-name>Component Universally Unique Identifier Reference</formal-name>
          <description>A reference to a component that is implemented as part of an inventory item.</description>
       </define-flag>
