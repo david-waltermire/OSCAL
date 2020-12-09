@@ -43,8 +43,7 @@
             <description>A summary of the technological or business purpose of the component.</description>
          </define-field>
          <field ref="property" max-occurs="unbounded">
-            <!-- CHANGE: props to properties -->
-            <group-as name="properties" in-json="ARRAY"/>
+            <group-as name="props" in-json="ARRAY"/>
          </field>
          <assembly ref="annotation" max-occurs="unbounded">
             <group-as name="annotations" in-json="ARRAY"/>
@@ -341,8 +340,7 @@
             <description>A summary of the user's purpose within the system.</description>
          </define-field>
          <field ref="property" max-occurs="unbounded">
-            <!-- CHANGE: props to properties -->
-            <group-as name="properties" in-json="ARRAY"/>
+            <group-as name="props" in-json="ARRAY"/>
          </field>
          <assembly ref="annotation" max-occurs="unbounded">
             <group-as name="annotations" in-json="ARRAY"/>
@@ -427,8 +425,7 @@
             <description>A summary of the inventory item stating its purpose within the system.</description>
          </define-field>
          <field ref="property" max-occurs="unbounded">
-            <!-- CHANGE: props to properties -->
-            <group-as name="properties" in-json="ARRAY"/>
+            <group-as name="props" in-json="ARRAY"/>
          </field>
          <assembly ref="annotation" max-occurs="unbounded">
             <group-as name="annotations" in-json="ARRAY"/>
@@ -545,8 +542,7 @@
 -->
       <model>
          <field ref="property" max-occurs="unbounded">
-            <!-- CHANGE: props to properties -->
-            <group-as name="properties" in-json="ARRAY"/>
+            <group-as name="props" in-json="ARRAY"/>
          </field>
          <assembly ref="annotation" max-occurs="unbounded">
             <group-as name="annotations" in-json="ARRAY"/>
@@ -600,8 +596,7 @@
             <description>A description of the component, including information about its function.</description>
          </define-field>
          <field ref="property" max-occurs="unbounded">
-            <!-- CHANGE: props to properties -->
-            <group-as name="properties" in-json="ARRAY"/>
+            <group-as name="props" in-json="ARRAY"/>
          </field>
          <assembly ref="annotation" max-occurs="unbounded">
             <group-as name="annotations" in-json="ARRAY"/>
@@ -631,8 +626,7 @@
       </define-flag>
       <model>
          <field ref="property" max-occurs="unbounded">
-            <!-- CHANGE: props to properties -->
-            <group-as name="properties" in-json="ARRAY"/>
+            <group-as name="props" in-json="ARRAY"/>
          </field>
          <assembly ref="annotation" max-occurs="unbounded">
             <group-as name="annotations" in-json="ARRAY"/>
