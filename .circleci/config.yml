@@ -2,15 +2,18 @@ version: 2.1 # use CircleCI 2.1
 references:
   common_environment: &common_environment
     environment:
-      MAVEN_VERSION: 3.6.2
+      MAVEN_VERSION: 3.6.3
       SAXON_VERSION: 9.9.0-1
       JSON_CLI_VERSION: 0.0.1-SNAPSHOT
       CICD_DIR: git-oscal/build/ci-cd
-      OSCAL_REPO_DIR: git-oscal
+      REPO_DIR: git-oscal
+      REPO_WEBSITE_DIR: git-oscal/docs
       OSCAL_BUILD_DIR: build_artifacts
       OSCAL_TOOLS_DIR: oscal_tools
       SCHEMATRON_HOME: git-schematron
       TERM: xterm
+      BUNDLER_VERSION: 2.0.2
+      HUGO_VERSION: 0.69.2
     working_directory: ~/oscal
   attach_build_workspace: &attach_build_workspace
     attach_workspace:
@@ -18,20 +21,34 @@ references:
   checkout: &checkout
     checkout:
       path: git-oscal
+  checkout-submodules: &checkout-submodules
+    run:
+      name: Checkout Submodules
+      command: |
+        cd "$REPO_DIR"
+        git submodule sync --recursive
+        git submodule update --recursive --init
   publish_artifacts: &publish_artifacts
     store_artifacts:
       path: build_artifacts
   restore_gem_cache: &restore_gem_cache
     restore_cache:
       keys:
-        - gem-cache-v9-{{ arch }}-{{ checksum "git-oscal/docs/Gemfile.lock" }}
-        - gem-cache-v9-{{ arch }}-
+        - gem-cache-v10-{{ arch }}-{{ checksum "git-oscal/docs/Gemfile.lock" }}
+        - gem-cache-v10-{{ arch }}-
   save_gem_cache: &save_gem_cache
     save_cache:
-      key: gem-cache-v9-{{ arch }}-{{ checksum "git-oscal/docs/Gemfile.lock" }}
+      key: gem-cache-v10-{{ arch }}-{{ checksum "git-oscal/docs/Gemfile.lock" }}
       paths:
         - git-oscal/docs/vendor/bundle
 commands:
+  apt-update:
+    description: "Update APT cache"
+    steps:
+      - run:
+          name: Get latest APT package metadata
+          command: |
+            sudo rm -rf /var/lib/apt/lists/* && sudo apt-get update
   install-schematron:
     description: "Install the schematron skeleton"
     steps:
@@ -62,90 +79,93 @@ commands:
           name: Get Saxon-HE
           command: |
             mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DartifactId=Saxon-HE -DgroupId=net.sf.saxon -Dversion=$SAXON_VERSION
-      - run:
-          name: Build JSON Validation CLI
-          command: |
-            # update maven version
-            cd /opt
-            sudo wget "https://www-us.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-            sudo tar -xvzf "apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-            sudo mv "apache-maven-${MAVEN_VERSION}" maven
-            export M2_HOME=/opt/maven
-            export PATH=${M2_HOME}/bin:${PATH}
-            cd -
-            # now build
-            cd "${OSCAL_TOOLS_DIR}/json-cli"
-            /opt/maven/bin/mvn dependency:go-offline
-            /opt/maven/bin/mvn install
       - save_cache:
           paths:
             - ~/.m2
           key: mvn-m2-cache-V2-{{ checksum ".maven-cache-checksum" }}
-  install-maven:
+  install-apt-maven:
     description: "Installs Maven"
     steps:
       - run:
           name: Get Maven
           command: |
             sudo apt-get install maven
-  install-lxml:
+  install-apt-hugo:
+    description: "Installs Hugo"
+    steps:
+      - run:
+          name: Get Hugo
+          command: |
+            wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.deb
+      - run:
+          name: Install Hugo
+          command: |
+            sudo apt-get install ./hugo_extended_${HUGO_VERSION}_Linux-64bit.deb
+  install-pip-lxml:
     description: "Installs Python lxml package"
     steps:
       - run:
           name: Get lxml
           command: |
             sudo pip install lxml
-  install-xmllint:
+  install-apt-xmllint:
     description: "Install xmllint"
     steps:
       - run:
           name: Get xmllint
           command: |
             sudo apt-get install libxml2-utils
-  install-ajv:
+  install-npm-ajv:
     description: "Install ajv"
     steps:
       - run:
           name: Get ajv
           command: |
             sudo npm install -g ajv-cli
-  install-markdown-link-check:
+  install-npm-json-diff:
+    description: "Install json-diff"
+    steps:
+      - run:
+          name: Get json-diff
+          command: |
+            sudo npm install -g json-diff
+  install-npm-markdown-link-check:
     description: "Install markdown-link-check"
     steps:
       - run:
           name: Get markdown-link-check
           command: |
             sudo npm install -g markdown-link-check
-  install-jq:
+  install-apt-jq:
     description: "Install jq"
     steps:
       - run:
           name: Get jsome
           command: |
             sudo apt-get install jq
-  install-prettyjson:
+  install-npm-prettyjson:
     description: "Install prettyjson"
     steps:
       - run:
           name: Get prettyjson
           command: |
             sudo npm install -g prettyjson
-  install-github-release:
+  install-go-github-release:
     description: "Install Github Release"
     steps:
       - run:
           name: Get Github Release
           command: |
             go get github.com/aktau/github-release
-  install-bundler:
+  install-gem-bundler:
     description: "Install bundler and html-proofer"
     steps:
       - run:
-          name: Install Bundler
+          name: Install with Bundler
           command: |
-            cd "$OSCAL_REPO_DIR/docs"
-            # gem install bundler
-            # gem install html-proofer
+            cd "$REPO_WEBSITE_DIR"
+            gem update --system
+            gem install bundler
             bundle install --path vendor/bundle --jobs=4 --retry=3 && bundle clean
   check-skip-build:
     steps:
@@ -163,7 +183,7 @@ executors:
     <<: *common_environment
   ruby-node-executor:
     docker: # run the ruby jobs with Docker
-      - image: circleci/ruby:2.4.6-node-browsers
+      - image: circleci/ruby:2.7.0-node-browsers
     <<: *common_environment
   python-executor:
     docker: #run the python jobs with Docker
@@ -198,9 +218,11 @@ jobs: # a collection of
     executor: java-executor
     steps:
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
-      - install-xmllint
+      - apt-update
+      - install-apt-xmllint
       - install-maven-dependencies
       - install-schematron
       - run:
@@ -216,10 +238,13 @@ jobs: # a collection of
     executor: java-executor
     steps: # a collection of executable commands
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
       - install-maven-dependencies
-      - install-xmllint
+      - apt-update
+      - install-apt-xmllint
+      - install-npm-ajv
       - run:
           name: Generate OSCAL schemas
           command: |
@@ -234,11 +259,12 @@ jobs: # a collection of
     executor: java-executor
     steps: # a collection of executable commands
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
       - install-maven-dependencies
       - run:
-          name: Generate OSCAL schemas
+          name: Generate OSCAL content converters
           command: |
             bash "$CICD_DIR/generate-content-converters.sh" -w "$OSCAL_BUILD_DIR"
       - *publish_artifacts
@@ -247,67 +273,25 @@ jobs: # a collection of
           paths:
             - xml
             - json
-  job-copy-and-convert-content:
-    executor: java-executor
-    steps: # a collection of executable commands
-      - *checkout
-      - *attach_build_workspace
-      - check-skip-build
-      - install-maven-dependencies
-      - install-jq
-      - install-prettyjson
-      - run:
-          name: Generate OSCAL converters
-          command: |
-            bash "$CICD_DIR/copy-and-convert-content.sh" -w "$OSCAL_BUILD_DIR"
-      - *publish_artifacts
-      - persist_to_workspace:
-          root: build_artifacts
-          paths:
-            - content # not needed?
   job-validate-markdown:
     executor: java-executor
     steps:
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
-      - install-markdown-link-check
+      - install-npm-markdown-link-check
       - run:
           name: Validate repo Markdown content instances
           command: |
+            cd "$REPO_DIR"
             # this command will filter out any docs Markdown files, which are checked in a different job
-            find "$OSCAL_REPO_DIR" -path "${OSCAL_REPO_DIR}/docs" -prune -o -name \*.md -print0 | xargs -0 -n1 markdown-link-check -q
-  job-validate-content:
-    executor: java-executor
-    steps:
-      - *checkout
-      - *attach_build_workspace
-      - check-skip-build
-      - install-xmllint
-      - install-maven-dependencies
-      - run:
-          name: Validate content instances
-          command: |
-            bash "$CICD_DIR/validate-content.sh" -w "$OSCAL_BUILD_DIR"
-  job-roundtrip-conversions:
-    executor: python-executor
-    steps:
-      - *checkout
-      - *attach_build_workspace
-      - check-skip-build
-      - install-maven
-      - install-maven-dependencies
-      - install-lxml
-      - install-xmllint
-      - run:
-          name: Generate round trip XML and JSON conversions
-          command: |
-            bash "${CICD_DIR}/validate-content-conversion-round-trips.sh" -w "$OSCAL_BUILD_DIR" --scratch-dir "$OSCAL_BUILD_DIR"
-      - *publish_artifacts
+            git ls-files "*/*.md" -z | grep --null-data -v "^docs/" | xargs -0 -n1 markdown-link-check -q -c "build/config/.markdown-link-check/config.json"
   job-generate-docs:
     executor: java-executor
     steps:
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
       - install-maven-dependencies
@@ -315,6 +299,10 @@ jobs: # a collection of
           name: Generate schema documentation
           command: |
             bash "$CICD_DIR/generate-model-documentation.sh" -w "$OSCAL_BUILD_DIR"
+      - run:
+          name: Generate specification documentation
+          command: |
+            bash "$CICD_DIR/generate-specification-documentation.sh" -w "$OSCAL_BUILD_DIR"
       - run:
           name: Compress built docs
           command: |
@@ -333,93 +321,103 @@ jobs: # a collection of
       - deploy: # delete and copy artifacts before deploy
           name: Commit Artifacts
           command: |
-            cd "$OSCAL_REPO_DIR"
-            # Remove existing generated files
-            git rm -r --ignore-unmatch xml/convert/*.xsl
-            git rm -r --ignore-unmatch xml/schema/*.xsd
-            git rm -r --ignore-unmatch json/convert/*.xsl
-            git rm -r --ignore-unmatch json/schema/*.json
-            git rm -r --ignore-unmatch content/**/*.xml
-            git rm -r --ignore-unmatch content/**/*.json
-            git rm -r --ignore-unmatch content/**/*.yaml
-            # Copy new built files to repo
-            cd -
-            cp -r "$OSCAL_BUILD_DIR"/* "$OSCAL_REPO_DIR"
-            cd "$OSCAL_REPO_DIR"
-            # add the new files
-            git add -f --all xml
-            git add -f --all json
-            git add -f --all content
-            # check for changes
-            echo "Changed files:"
+            if ls ${OSCAL_BUILD_DIR}/*  1> /dev/null 2>&1 ; then
+              cd "$REPO_DIR"
+              # Remove existing generated files
+              git rm -r --ignore-unmatch xml/convert/*.xsl
+              git rm -r --ignore-unmatch xml/schema/*.xsd
+              git rm -r --ignore-unmatch json/convert/*.xsl
+              git rm -r --ignore-unmatch json/schema/*.json
+              # Copy new built files to repo
+              cd -
+              cp -r "$OSCAL_BUILD_DIR"/* "$REPO_DIR"
+              cd "$REPO_DIR"
+              # add the new files
+              git add -f --all xml
+              git add -f --all json
 
-            if ! $(git diff --exit-code --name-only HEAD~1 xml json content); then
-              # Only deploy if something relevant has changed
-              # Setup deployment
-              git config user.name "Deployment Bot"
-              git commit --allow-empty -m "Deploying content [ci deploy skip]"
-              # Ensure we are deploying against the latest
-              git fetch
-              git rebase origin/master
-              # deploy
-              git push
+              # check for changes
+              echo "Changed files:"
+
+              if ! $(git diff --exit-code --name-only HEAD~1 xml json content); then
+                # Only deploy if something relevant has changed
+                # Setup deployment
+                git config user.name "Deployment Bot"
+                git commit --allow-empty -m "Deploying content [ci deploy skip]"
+                # Ensure we are deploying against the latest
+                git fetch
+                git rebase origin/master
+                # deploy
+                git push
+              else
+                echo "  No files changed"
+              fi
             else
-              echo "  No files changed"
+              echo "  No changes to process"
             fi
+
       - *publish_artifacts
   job-validate-site-content:
     executor: ruby-node-executor
     steps:
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
       - *restore_gem_cache
-      - install-bundler
+      - install-gem-bundler
+      - apt-update
+      - install-apt-hugo
       - run:
           name: Restore generated site content
           command: |
+            # copy built artifacts
+            cp -vr "$OSCAL_BUILD_DIR"/xml "$REPO_DIR"
+            cp -vr "$OSCAL_BUILD_DIR"/json "$REPO_DIR"
             # restore docs from tar
-            tar -zxvf "${OSCAL_BUILD_DIR}/docs.tar.gz" --directory "${OSCAL_REPO_DIR}/docs" --strip-components=2
+            tar -zxvf "${OSCAL_BUILD_DIR}/docs.tar.gz" --directory "${REPO_WEBSITE_DIR}" --strip-components=2
       - run:
-          name: Build and Validate Jekyll site
+          name: Build and Validate Hugo site
           command: |
-            # cp -vr "$OSCAL_BUILD_DIR"/* "$OSCAL_REPO_DIR"
-            cd "$OSCAL_REPO_DIR/docs"
-            bundle exec jekyll build -d _site/OSCAL
-            bundle exec htmlproofer --allow-hash-href --url-ignore "/\/OSCAL\/docs\/schemas\//,/#/,/https:\/\/raw\.githubusercontent\.com/" --assume-extension --log-level :debug ./_site
-          environment:
-            JEKYLL_ENV: production
+            cd "$REPO_WEBSITE_DIR"
+            hugo -v --debug --minify
+            bundle exec htmlproofer --allow-hash-href public/ --url-swap "https\://pages.nist.gov/OSCAL/:/" --assume-extension --log-level :debug --url-ignore "/\/OSCAL\/docs\/\/documentation\/schemas\/[^/]+\/(?:json|xml)-(?:model-map|schema)/,/#/,/pages.nist.gov\/(?:nist-header-footer|leaveNotice)\/.+/"
       - *save_gem_cache
       - *publish_artifacts
   job-build-and-deploy-website:
     executor: ruby-node-executor
     steps:
       - *checkout
+      - *checkout-submodules
       - *attach_build_workspace
       - check-skip-build
       - *restore_gem_cache
-      - install-bundler
+      - install-gem-bundler
+      - apt-update
+      - install-apt-hugo
       - run:
           name: Restore generated site content
           command: |
+            # copy built artifacts
+            cp -vr "$OSCAL_BUILD_DIR"/* "$REPO_DIR"
             # restore docs from tar
-            tar -zxvf "${OSCAL_BUILD_DIR}/docs.tar.gz" --directory "${OSCAL_REPO_DIR}/docs" --strip-components=2
+            tar -zxvf "${OSCAL_BUILD_DIR}/docs.tar.gz" --directory "${REPO_WEBSITE_DIR}" --strip-components=2
       - run:
-          name: Build jekyll site
+          name: Build Site with Hugo
           command: |
-            # cp -vr "$OSCAL_BUILD_DIR"/* "$OSCAL_REPO_DIR"
-            cd "$OSCAL_REPO_DIR/docs"
-            bundle exec jekyll build
-            mkdir -p _site/.circleci
+            # cp -vr "$OSCAL_BUILD_DIR"/* "$REPO_DIR"
+            cd "$REPO_WEBSITE_DIR"
+            hugo -v --debug --minify
+            mkdir -p public/.circleci
             # copy the circleci config
-            cp ../.circleci/config.yml _site/.circleci/config.yml
+            cp ../.circleci/config.yml public/.circleci/config.yml
           environment:
             JEKYLL_ENV: production
       - *save_gem_cache
       - run:
           name: Run deploy script
           command: |
-            cd "$OSCAL_REPO_DIR/docs"
+            cd "$REPO_WEBSITE_DIR"
             git config user.name "Deployment Bot"
             bash ./deploy.sh --push-only -v -m "Deploying website [ci deploy skip]"
       - *publish_artifacts
@@ -427,11 +425,30 @@ jobs: # a collection of
     executor: go-executor
     steps:
       - *checkout
-      - install-github-release
+      - install-go-github-release
       - run:
           name: Package Release
           command: |
             bash "$CICD_DIR/package-release.sh" "$OSCAL_BUILD_DIR"
+  job-run-unittests:
+    executor: java-executor
+    steps:
+      - *checkout
+      - *checkout-submodules
+      - *attach_build_workspace
+      - check-skip-build
+      - apt-update
+      - install-apt-xmllint
+      - install-npm-ajv
+      - install-maven-dependencies
+      - run:
+          name: Run Content Unit Tests
+          command: |
+            bash "$CICD_DIR/run-unittests.sh" -w "$OSCAL_BUILD_DIR"
+#      - run:
+#          name: Run Profile Resolution Unit Tests
+#          command: |
+#            bash "$CICD_DIR/test-profile-resolution.sh" -w "$OSCAL_BUILD_DIR"
 workflows:
   version: 2
   build:
@@ -466,20 +483,9 @@ workflows:
       - job-generate-converters:
           requires:
             - job-validate-metaschema
-      - job-validate-content:
-          requires:
-            - job-generate-schema
-      - job-roundtrip-conversions:
-          requires:
-            - job-generate-converters
-            - job-validate-content
-      - job-copy-and-convert-content:
-           requires:
-            - job-generate-converters
-            - job-validate-content
       - job-generate-docs:
           requires:
-            - job-validate-metaschema
+            - job-generate-schema
             - job-generate-converters
       - job-validate-site-content:
           requires:
@@ -491,11 +497,12 @@ workflows:
                 - master
                 - nist-pages
       - job-deploy-artifacts:
-          requires:
-            - job-copy-and-convert-content
           filters:
             branches:
               only: master
+          requires:
+            - job-generate-schema
+            - job-generate-converters
       - job-build-and-deploy-website:
           requires:
             - job-generate-docs
@@ -503,3 +510,7 @@ workflows:
           filters:
             branches:
               only: master
+      - job-run-unittests:
+          requires:
+            - job-generate-schema
+            - job-generate-converters
