@@ -128,7 +128,7 @@
          <xsl:apply-templates select="last-modified"/>
          <xsl:apply-templates select="version"/>
          <xsl:apply-templates select="oscal-version"/>
-         <xsl:apply-templates select="revisions"/>
+         <xsl:apply-templates select="revisionsx"/>
          <xsl:for-each-group select="document-id" group-by="true()">
             <group in-json="ARRAY" key="document-ids">
                <xsl:apply-templates select="current-group()">
@@ -972,7 +972,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision"
+   <xsl:template match="catalog/metadata/revisionsx/revision"
                  priority="5"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1001,18 +1001,18 @@
          <xsl:apply-templates select="remarks"/>
       </assembly>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions"
+   <xsl:template match="catalog/metadata/revisionsx"
                  priority="4"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
-      <group name="revisions" gi="revisions" group-json="ARRAY">
+      <group name="revisionsx" gi="revisionsx" group-json="ARRAY">
          <xsl:if test="$with-key">
-            <xsl:attribute name="key">revisions</xsl:attribute>
+            <xsl:attribute name="key">revisionsx</xsl:attribute>
          </xsl:if>
          <xsl:apply-templates select="revision"/>
       </group>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision/title"
+   <xsl:template match="catalog/metadata/revisionsx/revision/title"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1029,7 +1029,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision/published"
+   <xsl:template match="catalog/metadata/revisionsx/revision/published"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1046,7 +1046,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision/last-modified"
+   <xsl:template match="catalog/metadata/revisionsx/revision/last-modified"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1063,7 +1063,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision/version"
+   <xsl:template match="catalog/metadata/revisionsx/revision/version"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1079,7 +1079,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision/oscal-version"
+   <xsl:template match="catalog/metadata/revisionsx/revision/oscal-version"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1095,7 +1095,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="catalog/metadata/revisions/revision/link/text"
+   <xsl:template match="catalog/metadata/revisionsx/revision/link/text"
                  priority="8"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>

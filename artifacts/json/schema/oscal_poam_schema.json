@@ -22,7 +22,7 @@
           { "$ref" : "#/definitions/oscal-metadata-version" },
           "oscal-version" : 
           { "$ref" : "#/definitions/oscal-metadata-oscal-version" },
-          "revisions" : 
+          "revisionsx" : 
           { "type" : "array",
             "minItems" : 1,
             "items" : 

@@ -106,7 +106,7 @@
          <xsl:apply-templates select="*[@key='last-modified']"/>
          <xsl:apply-templates select="*[@key='version']"/>
          <xsl:apply-templates select="*[@key='oscal-version']"/>
-         <xsl:apply-templates select="*[@key='revisions']"/>
+         <xsl:apply-templates select="*[@key='revisionsx']"/>
          <xsl:apply-templates select="*[@key='document-ids']"/>
          <xsl:apply-templates select="*[@key='props']"/>
          <xsl:apply-templates select="*[@key='links']"/>
@@ -1306,10 +1306,10 @@
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map"
                  priority="5">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision" -->
       <assembly name="oscal-metadata-revision"
                 gi="revision"
                 formal-name="Revision History Entry">
@@ -1323,21 +1323,21 @@
          <xsl:apply-templates select="*[@key='remarks']"/>
       </assembly>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']"
                  priority="4">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions" -->
-      <group name="revisions" gi="revisions" group-json="ARRAY">
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx" -->
+      <group name="revisionsx" gi="revisionsx" group-json="ARRAY">
          <xsl:if test="$with-key">
-            <xsl:attribute name="key">revisions</xsl:attribute>
+            <xsl:attribute name="key">revisionsx</xsl:attribute>
          </xsl:if>
          <xsl:apply-templates select="*"/>
       </group>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='title']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='title']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision/title" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision/title" -->
       <field name="title"
              gi="title"
              as-type="markup-line"
@@ -1349,17 +1349,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='title']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='title']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="markup-line" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='published']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='published']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision/published" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision/published" -->
       <field name="oscal-metadata-published"
              gi="published"
              as-type="dateTime-with-timezone"
@@ -1371,17 +1371,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='published']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='published']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="dateTime-with-timezone" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='last-modified']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='last-modified']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision/last-modified" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision/last-modified" -->
       <field name="oscal-metadata-last-modified"
              gi="last-modified"
              as-type="dateTime-with-timezone"
@@ -1393,17 +1393,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='last-modified']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='last-modified']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="dateTime-with-timezone" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='version']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='version']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision/version" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision/version" -->
       <field name="oscal-metadata-version"
              gi="version"
              formal-name="Document Version"
@@ -1414,17 +1414,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='version']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='version']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="string" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='oscal-version']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='oscal-version']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision/oscal-version" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision/oscal-version" -->
       <field name="oscal-metadata-oscal-version"
              gi="oscal-version"
              formal-name="OSCAL version"
@@ -1435,17 +1435,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='oscal-version']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='oscal-version']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="string" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
                  priority="8">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="plan-of-action-and-milestones/metadata/revisions/revision/link/text" -->
+      <!-- XML match="plan-of-action-and-milestones/metadata/revisionsx/revision/link/text" -->
       <field name="text"
              gi="text"
              as-type="markup-line"
@@ -1457,7 +1457,7 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
+   <xsl:template match="j:map[@key='plan-of-action-and-milestones']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
                  mode="get-value-property"
                  priority="8">
       <value as-type="markup-line" in-json="string">
