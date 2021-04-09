@@ -79,7 +79,7 @@
    <xsl:strip-space elements="plan-of-action-and-milestones metadata revision prop link role location address party responsible-party import-ssp local-definitions component status responsible-role protocol port-range inventory-item implemented-component observation origin actor related-task subject include-all include-subject exclude-subject identified-subject relevant-evidence risk characterization facet mitigating-factor response required-asset task timing on-date within-date-range at-frequency dependency associated-activity subject-placeholder source risk-log entry logged-by related-response related-observation poam-item associated-risk back-matter resource citation biblio rlink"/>
    <!-- METASCHEMA conversion stylesheet supports XML -> METASCHEMA/SUPERMODEL conversion -->
    <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
-   <!-- METASCHEMA: OSCAL Plan of Action and Milestones (POA&M) Model (version 1.0.0-rc1) in namespace "http://csrc.nist.gov/ns/oscal/1.0"-->
+   <!-- METASCHEMA: OSCAL Plan of Action and Milestones (POA&M) Model (version 1.0.0-rc2) in namespace "http://csrc.nist.gov/ns/oscal/1.0"-->
    <xsl:template match="plan-of-action-and-milestones"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -133,7 +133,7 @@
          <xsl:apply-templates select="last-modified"/>
          <xsl:apply-templates select="version"/>
          <xsl:apply-templates select="oscal-version"/>
-         <xsl:apply-templates select="revisionsx"/>
+         <xsl:apply-templates select="revisions"/>
          <xsl:for-each-group select="document-id" group-by="true()">
             <group in-json="ARRAY" key="document-ids">
                <xsl:apply-templates select="current-group()">
@@ -575,7 +575,7 @@
    <xsl:template match="observation"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
-      <assembly name="observation" gi="observation" formal-name="Objective">
+      <assembly name="observation" gi="observation" formal-name="Observation">
          <xsl:apply-templates select="@uuid"/>
          <xsl:apply-templates select="title"/>
          <xsl:apply-templates select="description"/>
@@ -1212,7 +1212,7 @@
             name="value"
             key="value"
             gi="value"
-            formal-name="Annotated Property Value">
+            formal-name="Property Value">
          <xsl:value-of select="."/>
       </flag>
    </xsl:template>
@@ -1712,7 +1712,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision"
                  priority="5"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1741,18 +1741,18 @@
          <xsl:apply-templates select="remarks"/>
       </assembly>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions"
                  priority="4"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
-      <group name="revisionsx" gi="revisionsx" group-json="ARRAY">
+      <group name="revisions" gi="revisions" group-json="ARRAY">
          <xsl:if test="$with-key">
-            <xsl:attribute name="key">revisionsx</xsl:attribute>
+            <xsl:attribute name="key">revisions</xsl:attribute>
          </xsl:if>
          <xsl:apply-templates select="revision"/>
       </group>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision/title"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision/title"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1769,7 +1769,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision/published"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision/published"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1786,7 +1786,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision/last-modified"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision/last-modified"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1803,7 +1803,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision/version"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision/version"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1819,7 +1819,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision/oscal-version"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision/oscal-version"
                  priority="6"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -1835,7 +1835,7 @@
          </value>
       </field>
    </xsl:template>
-   <xsl:template match="plan-of-action-and-milestones/metadata/revisionsx/revision/link/text"
+   <xsl:template match="plan-of-action-and-milestones/metadata/revisions/revision/link/text"
                  priority="8"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/1.0">
       <xsl:param name="with-key" select="true()"/>
@@ -2588,7 +2588,7 @@
       <field name="description"
              gi="description"
              as-type="markup-multiline"
-             formal-name="Observaton Description"
+             formal-name="Observation Description"
              in-json="SCALAR">
          <xsl:if test="$with-key">
             <xsl:attribute name="key">description</xsl:attribute>
@@ -5836,8 +5836,8 @@
                  mode="md"
                  match="insert"
                  xpath-default-namespace="http://csrc.nist.gov/ns/oscal/metaschema/1.0/supermodel">
-      <xsl:text>{{ </xsl:text>
-      <xsl:value-of select="@param-id"/>
+      <xsl:text>{{ insert: </xsl:text>
+      <xsl:value-of select="@type, @id-ref" separator=", "/>
       <xsl:text> }}</xsl:text>
    </xsl:template>
    <xsl:template xmlns:math="http://www.w3.org/2005/xpath-functions/math"

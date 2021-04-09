@@ -70,7 +70,7 @@
    <xsl:strip-space elements="j:map j:array"/>
    <!-- METASCHEMA conversion stylesheet supports JSON -> METASCHEMA/SUPERMODEL conversion -->
    <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
-   <!-- METASCHEMA: OSCAL Control Catalog Model (version 1.0.0-rc1) in namespace "http://csrc.nist.gov/ns/oscal/1.0"-->
+   <!-- METASCHEMA: OSCAL Control Catalog Model (version 1.0.0-rc2) in namespace "http://csrc.nist.gov/ns/oscal/1.0"-->
    <xsl:template match="j:map[@key='catalog']">
       <xsl:param name="with-key" select="true()"/>
       <!-- XML match="  catalog" -->
@@ -101,7 +101,7 @@
          <xsl:apply-templates select="*[@key='last-modified']"/>
          <xsl:apply-templates select="*[@key='version']"/>
          <xsl:apply-templates select="*[@key='oscal-version']"/>
-         <xsl:apply-templates select="*[@key='revisionsx']"/>
+         <xsl:apply-templates select="*[@key='revisions']"/>
          <xsl:apply-templates select="*[@key='document-ids']"/>
          <xsl:apply-templates select="*[@key='props']"/>
          <xsl:apply-templates select="*[@key='links']"/>
@@ -441,7 +441,7 @@
             name="value"
             key="value"
             gi="value"
-            formal-name="Annotated Property Value">
+            formal-name="Property Value">
          <xsl:value-of select="."/>
       </flag>
    </xsl:template>
@@ -728,10 +728,10 @@
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map"
                  priority="5">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision" -->
+      <!-- XML match="catalog/metadata/revisions/revision" -->
       <assembly name="oscal-metadata-revision"
                 gi="revision"
                 formal-name="Revision History Entry">
@@ -745,21 +745,21 @@
          <xsl:apply-templates select="*[@key='remarks']"/>
       </assembly>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']"
                  priority="4">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx" -->
-      <group name="revisionsx" gi="revisionsx" group-json="ARRAY">
+      <!-- XML match="catalog/metadata/revisions" -->
+      <group name="revisions" gi="revisions" group-json="ARRAY">
          <xsl:if test="$with-key">
-            <xsl:attribute name="key">revisionsx</xsl:attribute>
+            <xsl:attribute name="key">revisions</xsl:attribute>
          </xsl:if>
          <xsl:apply-templates select="*"/>
       </group>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='title']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='title']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision/title" -->
+      <!-- XML match="catalog/metadata/revisions/revision/title" -->
       <field name="title"
              gi="title"
              as-type="markup-line"
@@ -771,17 +771,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='title']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='title']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="markup-line" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='published']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='published']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision/published" -->
+      <!-- XML match="catalog/metadata/revisions/revision/published" -->
       <field name="oscal-metadata-published"
              gi="published"
              as-type="dateTime-with-timezone"
@@ -793,17 +793,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='published']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='published']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="dateTime-with-timezone" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='last-modified']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='last-modified']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision/last-modified" -->
+      <!-- XML match="catalog/metadata/revisions/revision/last-modified" -->
       <field name="oscal-metadata-last-modified"
              gi="last-modified"
              as-type="dateTime-with-timezone"
@@ -815,17 +815,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='last-modified']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='last-modified']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="dateTime-with-timezone" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='version']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='version']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision/version" -->
+      <!-- XML match="catalog/metadata/revisions/revision/version" -->
       <field name="oscal-metadata-version"
              gi="version"
              formal-name="Document Version"
@@ -836,17 +836,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='version']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='version']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="string" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='oscal-version']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='oscal-version']"
                  priority="6">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision/oscal-version" -->
+      <!-- XML match="catalog/metadata/revisions/revision/oscal-version" -->
       <field name="oscal-metadata-oscal-version"
              gi="oscal-version"
              formal-name="OSCAL version"
@@ -857,17 +857,17 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:string[@key='oscal-version']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:string[@key='oscal-version']"
                  mode="get-value-property"
                  priority="6">
       <value as-type="string" in-json="string">
          <xsl:value-of select="."/>
       </value>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
                  priority="8">
       <xsl:param name="with-key" select="true()"/>
-      <!-- XML match="catalog/metadata/revisionsx/revision/link/text" -->
+      <!-- XML match="catalog/metadata/revisions/revision/link/text" -->
       <field name="text"
              gi="text"
              as-type="markup-line"
@@ -879,7 +879,7 @@
          <xsl:apply-templates select="." mode="get-value-property"/>
       </field>
    </xsl:template>
-   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisionsx']/j:array[@key='revisionsx']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
+   <xsl:template match="j:map[@key='catalog']/j:map[@key='metadata']/j:array[@key='revisions']/j:array[@key='revisions']/j:map/j:array[@key='links']/j:map/j:string[@key='text']"
                  mode="get-value-property"
                  priority="8">
       <value as-type="markup-line" in-json="string">
@@ -2845,7 +2845,7 @@
             <!-- Note that text contents are regex notation for matching so * must be \* -->
          <q>"<text/>"</q>
          <img alt="!\[{{$noclosebracket}}\]" src="\({{$nocloseparen}}\)"/>
-         <insert param-id="\{{\{{{{$nws}}\}}\}}"/>
+         <insert>\{\{\s*insert: <type/>,\s*<id-ref/>\s*\}\}</insert>
          <a href="\[{{$noclosebracket}}\]">\(<text not="\)"/>\)</a>
          <code>`<text/>`</code>
          <strong>
@@ -2857,6 +2857,27 @@
          <sup>\^<text/>\^</sup>
       </tag-spec>
    </xsl:variable>
+   <xsl:template match="*" mode="write-match">
+      <xsl:apply-templates select="@*, node()" mode="write-match"/>
+   </xsl:template>
+   <xsl:template match="@*[matches(., '\{\$text\}')]" mode="write-match">
+      <xsl:value-of select="replace(., '\{\$text\}', '(.*)?')"/>
+   </xsl:template>
+   <xsl:template match="@*[matches(., '\{\$nocloseparen\}')]" mode="write-match">
+      <xsl:value-of select="replace(., '\{\$nocloseparen\}', '([^\\(]*)?')"/>
+   </xsl:template>
+   <xsl:template match="@*[matches(., '\{\$noclosebracket\}')]" mode="write-match">
+      <xsl:value-of select="replace(., '\{\$noclosebracket\}', '([^\\[]*)?')"/>
+   </xsl:template>
+   <xsl:template match="text" mode="write-match">
+      <xsl:text>(.*?)</xsl:text>
+   </xsl:template>
+   <xsl:template match="insert/type | insert/id-ref" mode="write-match">
+      <xsl:text>(\i\c*?)</xsl:text>
+   </xsl:template>
+   <xsl:template match="text[@not]" mode="write-match">
+      <xsl:text expand-text="true">([^{ @not }]*?)</xsl:text>
+   </xsl:template>
    <xsl:template match="*" mode="write-replace">
         <!-- we can write an open/close pair even for an empty element b/c
              it will be parsed and serialized -->
@@ -2872,28 +2893,22 @@
       <xsl:value-of select="local-name()"/>
       <xsl:text>&gt;</xsl:text>
    </xsl:template>
-   <xsl:template match="*" mode="write-match">
-      <xsl:apply-templates select="@*, node()" mode="write-match"/>
-   </xsl:template>
-   <xsl:template match="@*[matches(., '\{\$text\}')]" mode="write-match">
-      <xsl:value-of select="replace(., '\{\$text\}', '(.*)?')"/>
-   </xsl:template>
-   <xsl:template match="@*[matches(., '\{\$nocloseparen\}')]" mode="write-match">
-      <xsl:value-of select="replace(., '\{\$nocloseparen\}', '([^\\(]*)?')"/>
-   </xsl:template>
-   <xsl:template match="@*[matches(., '\{\$noclosebracket\}')]" mode="write-match">
-      <xsl:value-of select="replace(., '\{\$noclosebracket\}', '([^\\[]*)?')"/>
-   </xsl:template>
-   <xsl:template match="@*[matches(., '\{\$nws\}')]" mode="write-match">
-        <!--<xsl:value-of select="."/>-->
-        <!--<xsl:value-of select="replace(., '\{\$nws\}', '(\S*)?')"/>-->
-      <xsl:value-of select="replace(., '\{\$nws\}', '\\s*(\\S+)?\\s*')"/>
-   </xsl:template>
    <xsl:template match="text" mode="write-replace">
       <xsl:text>$1</xsl:text>
    </xsl:template>
-   <xsl:template match="insert/@param-id" mode="write-replace">
-      <xsl:text> param-id='$1'</xsl:text>
+   <xsl:template match="insert" mode="write-replace">
+        <!-- we can write an open/close pair even for an empty element b/c
+             it will be parsed and serialized -->
+      <xsl:text>&lt;insert xmlns="http://csrc.nist.gov/ns/oscal/metaschema/1.0/supermodel"</xsl:text>
+      <!-- coercing the order to ensure correct formation of regegex       -->
+      <xsl:apply-templates mode="#current" select="*"/>
+      <xsl:text>/&gt;</xsl:text>
+   </xsl:template>
+   <xsl:template match="insert/type" mode="write-replace">
+      <xsl:text> type='$1'</xsl:text>
+   </xsl:template>
+   <xsl:template match="insert/id-ref" mode="write-replace">
+      <xsl:text> id-ref='$2'</xsl:text>
    </xsl:template>
    <xsl:template match="a/@href" mode="write-replace">
       <xsl:text> href='$2'</xsl:text>
@@ -2906,12 +2921,6 @@
    <xsl:template match="img/@src" mode="write-replace">
       <xsl:text> src='$2'</xsl:text>
       <!--<xsl:value-of select="replace(.,'\{\$insert\}','\$2')"/>-->
-   </xsl:template>
-   <xsl:template match="text" mode="write-match">
-      <xsl:text>(.*?)</xsl:text>
-   </xsl:template>
-   <xsl:template match="text[@not]" mode="write-match">
-      <xsl:text expand-text="true">([^{ @not }]*?)</xsl:text>
    </xsl:template>
    <xsl:variable name="line-example" xml:space="preserve"> { insertion } </xsl:variable>
    <!-- JSON to XML conversion: Supermodel serialization as XML -->
