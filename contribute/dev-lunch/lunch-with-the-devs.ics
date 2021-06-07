@@ -21,17 +21,17 @@ END:VTIMEZONE
 BEGIN:VEVENT
 CLASS:PUBLIC
 CREATED:20200417T185059Z
-DESCRIPTION:OSCAL Community Members\,\n \nYou are invited to join the NIST 
+DESCRIPTION:OSCAL Community Members\,\n \nYou are invited to join the NIST
 	OSCAL development team for a reoccurring web meeting.\nEach teleconference
 	 will cover the following:\n*	A short summary of what we are currently wor
-	king on. (5 to 10 minutes)\n*	Discussion of issues that we need community 
+	king on. (5 to 10 minutes)\n*	Discussion of issues that we need community
 	feedback on or help with\, if we have any for that week. (0 to 10 minutes)
 	\n*	The remainder of the call will be available to answer questions on OSC
-	AL. This is an opportunity ask clarifying questions\, to discuss features 
-	you would like to see in OSCAL\, and to report potential defects you have 
+	AL. This is an opportunity ask clarifying questions\, to discuss features
+	you would like to see in OSCAL\, and to report potential defects you have
 	found. We specifically want to hear from community members that are author
 	ing OSCAL content and creating OSCAL tools.\n \nYour feedback <https://pag
-	es.nist.gov/OSCAL/contribute/contact/>  is important to us\, which is the 
+	es.nist.gov/OSCAL/contribute/contact/>  is important to us\, which is the
 	primary reason we are hosting these teleconferences. We look forward to ta
 	lking with you about our progress on OSCAL.\n \nhttps://nist.bluejeans.com
 	/\nMeeting ID: 187 858 571\nParticipant Passcode: 0183\n \nPhone Dial-in\n
@@ -42,14 +42,15 @@ DESCRIPTION:OSCAL Community Members\,\n \nYou are invited to join the NIST
 	08d78ffb697d%7C2ab5d82fd8fa4797a93e054655c61dec%7C1%7C1%7C6371361824972360
 	80&sdata=5jTKbsbhfUw26YetRf5DRHkgMpL3UXWfkMic97ypubI%3D&reserved=0> )\n\nM
 	eeting ID: 187 858 571\nParticipant Passcode: 0183\n
-DTEND;TZID="Eastern Standard Time":20200423T130000
-DTSTAMP:20200417T185059Z
-DTSTART;TZID="Eastern Standard Time":20200423T120000
-LAST-MODIFIED:20200417T185059Z
+DTEND;TZID="Eastern Standard Time":20200116T130000
+DTSTAMP:20210421T161416Z
+DTSTART;TZID="Eastern Standard Time":20200116T120000
+EXDATE;TZID="Eastern Standard Time":20201217T120000,20201231T120000
+LAST-MODIFIED:20210421T161416Z
 LOCATION:https://bluejeans.com/187858571/0183
 ORGANIZER;CN="Waltermire, David A. (Fed)":mailto:david.waltermire@nist.gov
 PRIORITY:5
-RECURRENCE-ID;TZID="Eastern Standard Time":20200423T120000
+RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=TH;WKST=SU
 SEQUENCE:0
 SUMMARY;LANGUAGE=en-us:OSCAL Lunch with the Devs
 TRANSP:OPAQUE
