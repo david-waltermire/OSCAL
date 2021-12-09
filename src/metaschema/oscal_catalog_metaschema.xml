@@ -26,7 +26,6 @@
                   <formal-name>Catalog Universally Unique Identifier</formal-name>
                   <description>A globally unique identifier for this catalog instance. This UUID should be changed when this document is revised.</description>
             </define-flag>
-
             <model>
                   <assembly ref="metadata" min-occurs="1"/>
                   <assembly ref="parameter" max-occurs="unbounded">
@@ -106,7 +105,7 @@
             </model>
             <constraint>
                   <!-- CHANGE: added allowed values for a property/@name -->
-                  <allowed-values target="prop/@name" allow-other="yes">
+                  <allowed-values id="catalog-group-prop-name-values" target="prop/@name" allow-other="yes">
             &allowed-values-control-group-property-name;
                   </allowed-values>
             </constraint>
@@ -166,15 +165,15 @@
                   <!-- <any/> -->
             </model>
             <constraint>
-                  <has-cardinality target="part[@name='statement']" min-occurs="1" max-occurs="1" />
-                  <allowed-values target="prop/@name" allow-other="yes">
+                  <has-cardinality id="catalog-control-require-statement" target="part[@name='statement']" min-occurs="1" max-occurs="1" />
+                  <allowed-values id="catalog-control-prop-name-values" target="prop/@name" allow-other="yes">
             &allowed-values-control-group-property-name;
                         <enum value="status">The status of a <code>control</code>. For example, a value of 'withdrawn' can indicate that the <code>control</code> has been withdrawn and should no longer be used.</enum>
                   </allowed-values>
-                  <allowed-values target="prop[@name='status']/@value">
+                  <allowed-values id="catalog-control-prop-name-status-values" target="prop[@name='status']/@value">
                         <enum value="withdrawn">The control is no longer used.</enum>
                   </allowed-values>
-                  <allowed-values target="link/@rel" allow-other="yes">
+                  <allowed-values id="catalog-control-link-rel-values" target="link/@rel" allow-other="yes">
                         <enum value="reference">The link cites an external resource related to this control.</enum>
                         <enum value="related">The link identifies another control with bearing to this control.</enum>
                         <enum value="required">The link identifies another control that must be present if this control is present.</enum>

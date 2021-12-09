@@ -50,7 +50,7 @@
       <assembly ref="back-matter"/>
     </model>
     <constraint>
-      <index name="index-system-component-uuid" target="component">
+      <index id="component-definition-index-uuid" name="index-system-component-uuid" target="component">
         <key-field target="@uuid"/>
         <remarks>
           <p>Since multiple <code>component</code> entries can be provided, each component must have a unique <code>uuid</code>.</p>
@@ -127,7 +127,7 @@
       <field ref="remarks" in-xml="WITH_WRAPPER"/>
     </model>
     <constraint>
-      <allowed-values target="prop/@name" allow-other="yes">
+      <allowed-values id="defined-component-prop-name-values" target="prop/@name" allow-other="yes">
         <!-- ========================================================================================================== -->
         <!-- = Changes to the following values need to be synced with component in the SSP and component metaschemas. = -->
         <!-- CHANGED (BJR): Done -->
@@ -138,7 +138,7 @@
                     <!-- CHANGE: @name="date-released" changed to @name="release-date" -->
       </allowed-values>
 
-      <allowed-values target="link/@rel" allow-other="yes">
+      <allowed-values id="defined-component-link-rel-values" target="link/@rel" allow-other="yes">
         <!-- ========================================================================================================== -->
         <!-- = Changes to the following values need to be synced with component in the SSP and component metaschemas. = -->
         <!-- CHANGED (BJR): Done -->
@@ -147,7 +147,7 @@
         <enum value="uses-network">This component uses the network provided by the identified network component.</enum>
       </allowed-values>
 
-      <allowed-values target="responsible-role/@role-id|control-implementation/implemented-requirement/responsible-role/@role-id|control-implementation/implemented-requirement/statement/responsible-role/@role-id" allow-other="yes">
+      <allowed-values id="defined-component-responsible-role-role-id-values" target="responsible-role/@role-id|control-implementation/implemented-requirement/responsible-role/@role-id|control-implementation/implemented-requirement/statement/responsible-role/@role-id" allow-other="yes">
         <!-- ========================================================================================================== -->
         <!-- = Changes to the following values need to be synced with component in the SSP and component metaschemas. = -->
         <!-- CHANGED (BJR): Done -->
@@ -156,7 +156,7 @@
             &allowed-values-responsible-roles-component-production;
       </allowed-values>
 
-      <allowed-values target="prop[@name='asset-type']/@value">
+      <allowed-values id="defined-component-prop-name-at-values" target="prop[@name='asset-type']/@value">
             &allowed-values-property-name-asset-type-values;
       </allowed-values>
 
@@ -164,33 +164,33 @@
       <!-- = TODO: The following was copied from implementation-common as-is and should probably be setup with  = -->
       <!-- =       shared constraints; however, the values are highly static (yes/no, internal/external). -->
       <!-- =       Can be changed later with no breaking impact. -->
-      <allowed-values target="prop[@name='allows-authenticated-scan']/@value">
+      <allowed-values id="defined-component-prop-name-aas-values" target="prop[@name='allows-authenticated-scan']/@value">
         <enum value="yes">The component allows an authenticated scan.</enum>
         <enum value="no">The component does not allow an authenticated scan.</enum>
       </allowed-values>
 
-      <allowed-values target="prop[@name='virtual']/@value">
+      <allowed-values id="defined-component-prop-name-virtual-values" target="prop[@name='virtual']/@value">
         <enum value="yes">The component is virtualized.</enum>
         <enum value="no">The component is not virtualized.</enum>
       </allowed-values>
 
-      <allowed-values target="prop[@name='public']/@value">
+      <allowed-values id="defined-component-prop-name-public-values" target="prop[@name='public']/@value">
         <enum value="yes">The component is publicly accessible.</enum>
         <enum value="no">The component is not publicly accessible.</enum>
       </allowed-values>
 
-      <allowed-values target="prop[@name='implementation-point']/@value">
+      <allowed-values id="defined-component-prop-name-ip-values" target="prop[@name='implementation-point']/@value">
         <enum value="inteneral">The component is implemented within the system boundary.</enum>
         <enum value="external">The component is implemented outside the system boundary.</enum>
       </allowed-values>
       <!-- ========================================================================================================== -->
 
-      <index-has-key name="index-metadata-location-uuid" target="prop[@name='physical-location']">
+      <index-has-key id="defined-component-keyref-location-uuid" name="index-metadata-location-uuid" target="prop[@name='physical-location']">
         <key-field target="@value"/>
       </index-has-key>
 
-      <matches target="prop[@name='inherited-uuid']/@value" datatype="uuid" />
-      <matches target="prop[@name='release-date']/@value" datatype="date"/>
+      <matches id="defined-component-matches-inherited-uuid-value-uuid" target="prop[@name='inherited-uuid']/@value" datatype="uuid" />
+      <matches id="defined-component-matches-release-date-value-date" target="prop[@name='release-date']/@value" datatype="date"/>
 
       <!-- ========================================================================================================== -->
       <!-- = Changes to the following values need to be synced with component in the SSP and component metaschemas. = -->
@@ -200,18 +200,18 @@
       <!-- ========================================================================================================== -->
       <!-- = SOFTWARE: type='software' constraints                        = -->
       <!-- ========================================================================================================== -->
-      <allowed-values target="(.)[@type='software']/prop/@name" allow-other="yes">
+      <allowed-values id="defined-component-type-software-prop-name-values" target="(.)[@type='software']/prop/@name" allow-other="yes">
             &allowed-values-component_component_software;
       </allowed-values>
 
       <!-- ========================================================================================================== -->
       <!-- = SERVICE: type='service' constraints                        = -->
       <!-- ========================================================================================================== -->
-      <allowed-values target="(.)[@type='service']/link/@rel" allow-other="yes">
+      <allowed-values id="defined-component-type-service-prop-name-values" target="(.)[@type='service']/link/@rel" allow-other="yes">
             &allowed-values-component_component_service;
       </allowed-values>
 
-      <expect target="." test="not(exists((.)[not(@type='service')]/protocol))"/>
+      <expect id="defined-component-expect-no-protocol-except-service" target="." test="not(exists((.)[not(@type='service')]/protocol))"/>
 
       <!-- ========================================================================================================== -->
       <!-- = TODO: Consider whether INTERCONNECTION constraints are appropriate here.      = -->
@@ -238,7 +238,7 @@
     <formal-name>Component Type</formal-name>
     <description>A category describing the purpose of the component.</description>
     <constraint>
-      <allowed-values allow-other="yes">
+      <allowed-values id="component-defined-component-type-values" allow-other="yes">
             &allowed-values-component-type;
       </allowed-values>
     </constraint>

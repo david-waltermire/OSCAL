@@ -35,17 +35,13 @@
             </assembly>
             <field ref="system-id" min-occurs="0" max-occurs="1"/>
             <assembly ref="local-definitions" min-occurs="0" max-occurs="1"/>
-            <!-- CHANGE: move "observation" from poam-item -->
             <assembly ref="observation" min-occurs="0" max-occurs="unbounded">
                 <group-as name="observations" in-json="ARRAY"/>
             </assembly>
-            <!-- CHANGE: move "risk" from poam-item -->
             <assembly ref="risk" min-occurs="0" max-occurs="unbounded">
                 <group-as name="risks" in-json="ARRAY"/>
             </assembly>
             <assembly ref="poam-item" min-occurs="1" max-occurs="unbounded">
-                <!-- CHANGED: removed the top-level "poam-items" -->
-                <!-- CHANGED: "poam-item-group" to "poam-items" -->
                 <group-as name="poam-items" in-json="ARRAY"/>
             </assembly>
             <assembly ref="back-matter" min-occurs="0" max-occurs="1"/>
@@ -95,7 +91,6 @@
                 <formal-name>POA&amp;M Item Title</formal-name>
                 <description>The title or name for this POA&amp;M item .</description>
             </define-field>
-            <!-- CHANGE: Added WITH_WRAPPER to description-->
             <define-field name="description" min-occurs="1" max-occurs="1" in-xml="WITH_WRAPPER" as-type="markup-multiline">
                 <formal-name>POA&amp;M Item Description</formal-name>
                 <description>A human-readable description of POA&amp;M item.</description>
@@ -122,10 +117,6 @@
             </define-assembly>
 
             <!-- TODO: add link; check in the other assessment models -->
-            <!-- CHANGED: removed "collected" and "expires" (moved to observation) by brianrufgsa -->
-            <!-- CHANGED: removed "objective-status" per brianrufgsa -->
-            <!-- CHANGED: (per Brian) removed "implementation-statement-uuid" since this is in the SAR -->
-            <!-- CHANGED: replaced embedded observation with references -->
             <define-assembly name="related-observation" max-occurs="unbounded">
                 <formal-name>Related Observation</formal-name>
                 <description>Relates the poam-item to a set of referenced observations that were used to determine the finding.</description>
@@ -136,7 +127,6 @@
                 </define-flag>
             </define-assembly>
 
-            <!-- CHANGED: replaced "risk" with new "assciated-risk" -->
             <define-assembly name="associated-risk" max-occurs="unbounded">
                 <formal-name>Associated Risk</formal-name>
                 <description>Relates the finding to a set of referenced risks that were used to determine the finding.</description>
