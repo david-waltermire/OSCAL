@@ -5,7 +5,7 @@ on:
       ignorePattern:
         description: 'a pattern provided to grep for files/directories to ignore'
         required: false
-        default: '^website/'
+        default: '^docs/'
         type: string
       markdownLinkCheckConfig:
         description: 'the path to the markdown link check config file'
