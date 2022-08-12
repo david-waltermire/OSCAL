@@ -13,9 +13,9 @@
       <json-base-uri>http://csrc.nist.gov/ns/oscal</json-base-uri>
       <remarks>
             <p>In OSCAL a <a href="https://pages.nist.gov/OSCAL/concepts/layer/control/profile/">profile</a> represents a <a href="https://pages.nist.gov/OSCAL/concepts/terminology/#baseline">baseline</a> of selected <a href="https://pages.nist.gov/OSCAL/concepts/terminology/#control">controls</a> from one or more control catalogs. An OSCAL profile is used in an OSCAL <a href="https://pages.nist.gov/OSCAL/concepts/layer/implementation/ssp/">system security plan</a> (SSP) to determine the baseline of controls that must be implemented by the information system. The effective set of controls is generated through <a href="https://pages.nist.gov/OSCAL/concepts/processing/profile-resolution/">profile resolution</a>.</p>
-            <p>In OSCAL a profile represents a set of selected controls from one or more control catalogs. Such a set of controls can be referenced by an OSCAL system security plan (SSP) or in an OSCAL-aware information system to be used as a baseline in system security description. This effective set of controls is produced from an OSCAL profile by a deterministic, predictable process called profile resolution.</p>
-            <p>As sources for its controls, a profile declares one or more OSCAL catalogs or “upstream” profiles for import. This makes their controls available for selection and modification. When the profile is resolved, this selection can be instantiated, or accessed dynamically, as a catalog. If a profile imports a profile (perhaps in its own role as a normative "baseline"), this can occur retrospectively as needed. Additionally, OSCAL profiles may also be used for other purposes, such as documentation generation or as reference tables for validations.</p>
-            <p>Considered as input to the profile resolution process, a profile describes not only the control selection but also how a resulting catalog is structured and any alteration or tailoring to the resulting catalog structure and controls.</p>
+            <p>In OSCAL a profile represents a set of selected controls from one or more control catalogs. Such a set of controls can be referenced by an OSCAL system security plan (SSP) to establish a control baseline. This effective set of controls is produced from an OSCAL profile using a deterministic, predictable process called profile resolution.</p>
+            <p>A profile references one or more OSCAL catalogs or profiles to import controls from for control selection and tailoring. A profile can also describe how a resulting catalog is structured. When the profile is resolved, these selections and modifications are processed to produce a resulting OSCAL catalog.</p>
+            <p>OSCAL profiles have uses beyond establishing a baseline, such as documentation generation or as reference tables for validations.</p>
       </remarks>
 
       <import href="oscal_metadata_metaschema.xml"/>
@@ -46,8 +46,7 @@
       </define-assembly>
       <define-assembly name="import">
             <formal-name>Import resource</formal-name>
-            <description>Designates a catalog or profile that defines controls to be included and
-                  tailored in the baseline represented by the profile.</description>
+            <description>Designates a catalog or profile that defines controls for selection and tailoring by the profile.</description>
             <define-flag name="href" as-type="uri-reference" required="yes">
                   <formal-name>Catalog or Profile Reference</formal-name>
                   <description>A resolvable URL reference to the base catalog or profile that this profile is tailoring.</description>
@@ -94,8 +93,7 @@
       </define-assembly>
       <define-assembly name="merge">
             <formal-name>Merge controls</formal-name>
-            <description>Provides directives for how controls are to be organized in resolution or
-                  resolved "view".</description>
+            <description>Provides directives for how controls are to be organized in the resulting catalog.</description>
             <model>
                   <define-assembly name="combine">
                         <formal-name>Combination rule</formal-name>
@@ -125,19 +123,15 @@
                   <choice>
                         <define-assembly name="flat" min-occurs="1">
                               <formal-name>Flat Without Grouping</formal-name>
-                              <description>Use the flat structuring method: in a resolution,
-                                    controls appear without grouping structure.</description>
+                              <description>Use the flat structuring method in profile resolution that directs that controls appear without any grouping structure.</description>
                         </define-assembly>
                         <define-field name="as-is" as-type="boolean" min-occurs="1">
                               <formal-name>Group As-Is</formal-name>
-                              <description>Indicates that the controls selected should retain their
-                                    grouping, to be structured in resolution as they are structured
-                                    in their source catalogs.</description>
+                              <description>Indicates that the controls selected should retain their original grouping as defined in the import source.</description>
                         </define-field>
                         <define-assembly name="custom">
                               <formal-name>Custom Grouping</formal-name>
-                              <description>Frames a structure for embedding represented controls in
-                                    resolution.</description>
+                              <description>Provides an alternate grouping structure that selected controls will be placed in.</description>
                               <model>
                                     <assembly ref="group" max-occurs="unbounded">
                                           <group-as name="groups" in-json="ARRAY"/>
@@ -154,11 +148,6 @@
                   </choice>
             </model>
             <remarks>
-                  <p>One way of using <code>merge</code> is to indicate that structure should be
-                        retained from source catalogs, but this object may also be used to
-                              <q>reorder</q> or <q>restructure</q> controls by indicating order
-                        and/or structure in resolution.</p>
-                  <p>Implicitly, a <code>merge</code> element is also a filter: controls that are included in a profile, but not included (implicitly or explicitly) in the scope of a <code>merge</code> element, will not be merged into (will be dropped) in the resulting resolution.</p>
             </remarks>
       </define-assembly>
       <define-assembly name="group">
@@ -181,8 +170,7 @@
             <model>
                   <define-field name="title" as-type="markup-line" min-occurs="1">
                         <formal-name>Group Title</formal-name>
-                        <description>A name to be given to the group of controls (or groups), to be
-                              used for display and navigation.</description>
+                        <description>A name to be given to the group for use in display.</description>
                   </define-field>
                   <assembly ref="parameter" max-occurs="unbounded">
                         <group-as name="params" in-json="ARRAY"/>
@@ -360,8 +348,7 @@
             </model>
             <remarks>
                   <p>Use <code>@control-id</code> to indicate the scope of alteration.</p>
-                  <p>It is an error for two <code>alter</code> elements to apply to the same control. While in principle, multiple alterations could be compounded, profile resolvers are only required to respect a single alteration per control.</p>
-                  <p>At present, no provision is made for altering many controls at once (for example, to systematically remove properties or add global properties).</p>
+                  <p>Multiple <code>alter</code> constructs may not apply to the same control.</p>
             </remarks>
       </define-assembly>
       <define-assembly name="remove">
@@ -388,8 +375,8 @@
                   <description>Identify items to remove by the item's <code>ns</code>, which is the namespace associated with a <code>part</code>, or <code>prop</code>.</description>
             </define-flag>
             <remarks>
-                  <p>Use <code>by-name</code>, <code>by-class</code>, <code>by-id</code>, <code>by-ns</code> or <code>by-item-name</code> (potentially in combination) to indicate by appropriate matching which component to be removed or erased from a given control when a catalog is resolved. The scope of effect of a <code>remove</code> is limited to the control indicated on removal's parent (containing) <code>alter</code> object.</p>
-                  <p>To change contents of a control, use <code>remove</code> to remove an object (in general, the smallest single addressable object containing the change), then <code>add</code> to add it back again with the changes.</p>
+                  <p>Use <code>by-name</code>, <code>by-class</code>, <code>by-id</code>, <code>by-ns</code> or <code>by-item-name</code> (potentially in combination) to indicate by appropriate matching object to remove when the profile is resolved. The control affected is indicated by the <code>control-id</code>on the <code>alter</code> construct.</p>
+                  <p>To change contents of a control, use <code>remove</code> to remove an object, then <code>add</code> to add it back again with the changes.</p>
             </remarks>
       </define-assembly>
       <define-assembly name="add">
