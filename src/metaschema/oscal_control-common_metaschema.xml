@@ -184,14 +184,6 @@
         <define-assembly name="parameter-constraint">
                 <formal-name>Constraint</formal-name>
                 <description>A formal or informal expression of a constraint or test</description>
-                <!-- 
-                        TODO: Is `@ns` flag enough or should we add system for
-                        dictating constraints?
-
-                        Use cases: RMF recommends one thing, maybe different with
-                        FedRAMP, then a contradiction or subset of constraints is
-                        required, not recommended for example FCEB agency (Important Federal Agency).
-                -->
                 <model>
                         <define-field name="description" as-type="markup-multiline" in-xml="WITH_WRAPPER">
                                 <formal-name>Constraint Description</formal-name>
@@ -213,14 +205,6 @@
         </define-assembly>
         <define-assembly name="parameter-guideline">
                 <formal-name>Guideline</formal-name>
-                <!-- 
-                        TODO: Is `@ns` flag enough or should we add system for
-                        dictating guidelines?
-
-                        Use cases: RMF recommends one thing, maybe different with
-                        FedRAMP, then a contradiction or subset of constraints is
-                        required, not recommended for example FCEB agency (Important Federal Agency).
-                -->
                 <description>A prose statement that provides a recommendation for the use of a parameter.</description>
                 <model>
                         <define-field name="prose" as-type="markup-multiline" in-xml="UNWRAPPED" min-occurs="1">

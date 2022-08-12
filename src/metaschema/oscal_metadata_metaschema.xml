@@ -56,10 +56,7 @@
                         <enum value="successor-version">This link identifies a resource containing the predecessor version in the version history. Defined by <a href="https://tools.ietf.org/html/rfc5829">RFC 5829</a>.</enum>
                         <enum value="version-history">This link identifies a resource containing the version history of this document. Defined by <a href="https://tools.ietf.org/html/rfc5829">RFC 5829</a>.</enum>
                     </allowed-values>
-                    <!-- 
-                        TODO: Can we and should we add a constraint to say, if one revision exists or at least one revision of n>1 exist,
-                        the metadata/published and metadata/last-modified should match?
-                    -->
+                    <!-- TODO: check for if the last-modified is >= the latest revision. -->
                 </constraint>
                 <remarks>
                     <p>While <code>published</code>, <code>last-modified</code>, and <code>oscal-version</code> are not required, values for these entries should be provided if the information is known. A <code>link</code> with a <code>rel</code> of <q>source</q> should be provided if the information is known.</p>
