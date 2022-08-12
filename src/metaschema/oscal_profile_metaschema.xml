@@ -113,11 +113,6 @@
                               <expect id="req-merge-combine" target="." test="not(@method='merge')"/>
                         </constraint>
                         <remarks>
-                              <p>Whenever combining controls from multiple (import) pathways, an issue arises of what to do in cases of clashing invocations (which may be multiple competing versions of a control). </p>
-                              <p>This setting permits a profile designer to apply a rule for the resolution of such cases. In a well-designed profile such collisions would ordinarily be avoided, but this setting can be useful for defining what to do when it occurs.</p>
-                              <p>If no <code>combine</code> element appears, the default behavior is to treat the profile the same as one whose <code>combine</code> indicates a method of “keep”. In this case, controls are all kept (and not regarded as duplicative), leading to validation errors in the result if their IDs should happen to collide. This is easily detectable as an error condition.</p>
-                              <p>Conversely, a profile with <code>combine="keep"</code> that shows no such control collisions in profile resolution, demonstrates thereby that no conflicting controls have been selected, even among sources that may be very similar in other respects (for example, as distinct profiles both derived from the same catalog).</p>
-                              <p>Another setting for <code>combine</code>, "use-first", can be useful in specific situations. (The deprecated value "merge" represents a proposed use case not fully specified.)</p>
                         </remarks>
                   </define-assembly>
                   <choice>
