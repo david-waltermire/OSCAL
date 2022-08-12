@@ -167,6 +167,11 @@
                   <formal-name>Control Identifier</formal-name>
                   <!-- Identifier Declaration -->
                   <description>Identifies a control such that it can be referenced in the defining catalog and other OSCAL instances (e.g., profiles).</description>
+                  <prop name="value-type" value="identifier"/>
+                  <prop name="identifier-type" value="human-oriented"/>
+                  <prop name="identifier-uniqueness" value="local"/>
+                  <prop name="identifier-scope" value="instance"/>
+                  <prop name="identifier-persistence" value="per-subject"/>
             </define-flag>
             <define-flag name="class" as-type="token">
                   <formal-name>Control Class</formal-name>
