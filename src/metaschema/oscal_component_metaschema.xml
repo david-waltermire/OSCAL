@@ -20,9 +20,10 @@
   <json-base-uri>http://csrc.nist.gov/ns/oscal</json-base-uri>
   <remarks>
     <p>The OSCAL Component Definition Model can be used to describe the implementation of controls in a <code>component</code> or a set of components grouped as a <code>capability</code>. A component can be either a <em>technical component</em>, or a <em>documentary component</em>.</p>
-    <p>A technical component is a component that is implemented in hardware (physical or virtual) or software. Hardware and software vendors/manufacturers are responsible for creating component definitions that component consumers can use when documenting control implementations in an OSCAL SSP.</p>
-    <p>A documentary component is a component implemented in a document, such as a process, procedure, or policy.  In this case, the document author is responsible for creating component definitions that can be utilized by component consumers when documenting control implementations in an OSCAL SSP</p>
-    <p>The root of the OSCAL Implementation Component format is <code>component-definition</code>.</p>
+    <p>A technical component is a component that is implemented in hardware (physical or virtual) or software. Suppliers may document components in an OSCAL component definition that describes the implementation of controls in their hardware and software.</p>
+    <p>A documentary component is a component implemented for a documented process, procedure, or policy.  Suppliers may document components in an OSCAL component definition that describes the implementation of controls in their process, procedure, or policy.</p>
+    <p>The information provided by a technical or documentary component can be used by component consumers to provide starting narratives for documenting control implementations in an OSCAL SSP.</p>
+    <p>The root of the OSCAL Implementation Layer Component Definition model is <code>component-definition</code>.</p>
   </remarks>
 
   <import href="oscal_implementation-common_metaschema.xml"/>
@@ -91,7 +92,7 @@
       <prop name="identifier-type" value="machine-oriented"/>
       <prop name="identifier-uniqueness" value="global"/>
       <prop name="identifier-scope" value="cross-instance"/>
-      <prop name="identifier-persistence" value="change-on-write"/>
+      <prop name="identifier-persistence" value="per-subject"/>
     </define-flag>
     <flag ref="defined-component-type" required="yes">
       <use-name>type</use-name>

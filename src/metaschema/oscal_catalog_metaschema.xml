@@ -52,8 +52,8 @@
             <constraint>
                   <allowed-values target="metadata/prop[has-oscal-namespace('http://csrc.nist.gov/ns/oscal')]/@name">
                         <enum value="resolution-tool">The tool used to produce a resolved profile.</enum>
+                        <enum value="source-profile-uuid">The document-level <code>uuid</code> of the source profile from which the catalog was produced by <a href="https://pages.nist.gov/OSCAL/concepts/processing/profile-resolution/">profile resolution</a>.</enum>
                   </allowed-values>
-                  <!-- Feature Request: prop for source-profile-uuid.  we have 'resolution-source' link but prop with UUID would be even greater for traceability -->
                   <allowed-values target="metadata/link/@rel">
                         <enum value="source-profile">The profile from which the catalog was produced by <a href="https://pages.nist.gov/OSCAL/concepts/processing/profile-resolution/">profile resolution</a>.</enum>
                   </allowed-values>
@@ -146,8 +146,8 @@
                   </allowed-values>
             </constraint>
             <remarks>
-                  <p>Catalogs can use a <code>group</code> to categorize related controls into a single grouping, such as a family of controls or other logical grouping.</p>
-                  <p>A <code>group</code> may have its own properties, statements, parameters, and references, which are inherited by all member controls of that group.</p>
+                  <p>Catalogs can use the catalog <code>group</code> construct to organize related controls into a single grouping, such as a family of controls or other logical organizational structure.</p>
+                  <p>A <code>group</code> may have its own properties, statements, parameters, and references, which are inherited by all controls of that are a member of the group.</p>
             </remarks>
             <example>
                   <group xmlns="http://csrc.nist.gov/ns/oscal/1.0" id="xyz">
@@ -222,12 +222,12 @@
                         <enum value="moved-to">The containing control definition was moved to the referenced control.</enum>
                         <remark>
                               <!-- 
-                                    Clarify that link@rel (e.g., where value is related, required, incorporated-into, moved-to) is only intended for control-to-control associations.
+                                    TODO: Clarify that link@rel (e.g., where value is related, required, incorporated-into, moved-to) is only intended for control-to-control associations.
                                     Add a corresponding constraint.
                               -->
                         </remark>
                   </allowed-values>
-                  <!-- Feature Requst: add constraint for link/@rel controls (where value is either related, required, incorporated-into, moved-to) to ensure the control exists in current or linked catalog -->
+                  <!-- TODO: add constraint for link/@rel controls (where value is either related, required, incorporated-into, moved-to) to ensure the control exists in current or linked catalog -->
                   <!-- TODO: add expect constraint to check for controls that reference themselves -->
                   <index-has-key name="catalog-controls" target="link[@rel=('related','required','incorporated-into','moved-to') and starts-with(@href,'#')]">
                         <key-field target="@href" pattern="#(.*)"/>
