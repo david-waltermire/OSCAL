@@ -267,7 +267,7 @@
       <prop name="identifier-type" value="machine-oriented"/>
       <prop name="identifier-uniqueness" value="global"/>
       <prop name="identifier-scope" value="cross-instance"/>
-      <prop name="identifier-persistence" value="change-on-write"/>
+      <prop name="identifier-persistence" value="per-subject"/>
     </define-flag>
     <define-flag name="name" as-type="string" required="yes">
       <formal-name>Capability Name</formal-name>
@@ -330,7 +330,7 @@
       <prop name="identifier-type" value="machine-oriented"/>
       <prop name="identifier-uniqueness" value="global"/>
       <prop name="identifier-scope" value="cross-instance"/>
-      <prop name="identifier-persistence" value="change-on-write"/>
+      <prop name="identifier-persistence" value="per-subject"/>
     </define-flag>
     <flag ref="source" required="yes">
       <remarks>
@@ -378,7 +378,7 @@
       <prop name="identifier-type" value="machine-oriented"/>
       <prop name="identifier-uniqueness" value="global"/>
       <prop name="identifier-scope" value="cross-instance"/>
-      <prop name="identifier-persistence" value="change-on-write"/>
+      <prop name="identifier-persistence" value="per-subject"/>
     </define-flag>
     <flag ref="control-id" required="yes"/>
     <model>
