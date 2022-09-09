@@ -31,22 +31,6 @@
                         <prop name="identifier-scope" value="cross-instance"/>
                         <prop name="identifier-persistence" value="per-subject"/>
                         <remarks>
-                                <p>A <a href="/concepts/identifier-use/#human-oriented"
-                                                >human-oriented</a>, <a
-                                                href="/concepts/identifier-use/#locally-unique"
-                                                >locally unique</a> identifier with <a
-                                                href="/concepts/identifier-use/#cross-instance"
-                                                >cross-instance</a> scope that can be used to
-                                        reference this defined part elsewhere in <a
-                                                href="/concepts/identifier-use/#scope">this or other
-                                                OSCAL instances</a>. When referenced from another
-                                        OSCAL instance, this identifier must be referenced in the
-                                        context of the containing resource (e.g., import-profile).
-                                        This id should be assigned <a
-                                                href="/concepts/identifier-use/#consistency"
-                                                >per-subject</a>, which means it should be
-                                        consistently used to identify the same subject across
-                                        revisions of the document.</p>
                                 <p>While a part is not required to have an id, it is often desirable for an identifier to be provided, which allows the part to be referenced elsewhere in OSCAL document instances. For this reason, it is RECOMMENDED to provide a part identifier.</p>
                         </remarks>
                 </define-flag>
